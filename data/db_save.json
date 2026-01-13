@@ -1,0 +1,460 @@
+{
+  "clients": [
+    {
+      "identifiant": 1,
+      "raisonSociale": "Stark Biotech (Labo Expérimental)",
+      "adresseMail": "research@stark-bio.tech",
+      "telephone": "0491010101",
+      "commentaire": "Petit laboratoire de recherche sur le sérum expérimental. Client régulier pour les licences logicielles.",
+      "chiffreAffaire": 245000,
+      "nombreEmployes": 4,
+      "adresse": {
+        "identifiant": 101,
+        "numeroDeRue": "890",
+        "nomDeRue": "Fifth Avenue",
+        "codePostal": "10001",
+        "ville": "New York (Terre)"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 1,
+          "identifiantClient": 1,
+          "nomContrat": "Licence IA J.A.R.V.I.S T1",
+          "montantContrat": "1250.00"
+        },
+        {
+          "identifiant": 2,
+          "identifiantClient": 1,
+          "nomContrat": "Maintenance Bras Robotique",
+          "montantContrat": "950.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 2,
+      "raisonSociale": "Knowhere Mining Corp.",
+      "adresseMail": "collector@knowhere.space",
+      "telephone": "0140020202",
+      "commentaire": "Opération d'extraction de fluide spinal Céleste. Contrats de sécurité vitaux.",
+      "chiffreAffaire": 205000,
+      "nombreEmployes": 3,
+      "adresse": {
+        "identifiant": 102,
+        "numeroDeRue": "Zone C",
+        "nomDeRue": "Cranial Cortex",
+        "codePostal": "99999",
+        "ville": "Knowhere"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 3,
+          "identifiantClient": 2,
+          "nomContrat": "Support Scaphandres Cosmo",
+          "montantContrat": "1500.00"
+        },
+        {
+          "identifiant": 4,
+          "identifiantClient": 2,
+          "nomContrat": "Audit Sécurité Musée",
+          "montantContrat": "800.00"
+        },
+        {
+          "identifiant": 5,
+          "identifiantClient": 2,
+          "nomContrat": "Formation Soins Alien",
+          "montantContrat": "500.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 3,
+      "raisonSociale": "Asgardian Forges",
+      "adresseMail": "smith@nidavellir.realms",
+      "telephone": "0607030303",
+      "commentaire": "Atelier de forge pour armes légendaires. Achat d'un logiciel de simulation thermique stellaire.",
+      "chiffreAffaire": 180000,
+      "nombreEmployes": 2,
+      "adresse": {
+        "identifiant": 103,
+        "numeroDeRue": "1",
+        "nomDeRue": "Rainbow Bridge Road",
+        "codePostal": "00009",
+        "ville": "Asgard City"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 6,
+          "identifiantClient": 3,
+          "nomContrat": "Licence Gestion Chaleur Étoile",
+          "montantContrat": "1100.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 4,
+      "raisonSociale": "Wakanda Logistics",
+      "adresseMail": "shuri@wakanda.gov",
+      "telephone": "0388040404",
+      "commentaire": "Transport rapide via Maglev Vibranium. Contrat de maintenance des systèmes de lévitation.",
+      "chiffreAffaire": 230000,
+      "nombreEmployes": 5,
+      "adresse": {
+        "identifiant": 104,
+        "numeroDeRue": "42",
+        "nomDeRue": "Panther Plaza",
+        "codePostal": "54321",
+        "ville": "Birnin Zana (Wakanda)"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 7,
+          "identifiantClient": 4,
+          "nomContrat": "Maintenance Navette Talon",
+          "montantContrat": "580.00"
+        },
+        {
+          "identifiant": 8,
+          "identifiantClient": 4,
+          "nomContrat": "Formation Pilotes Kimoyo",
+          "montantContrat": "250.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 5,
+      "raisonSociale": "Xandar Garden Care",
+      "adresseMail": "nova@xandar.corps",
+      "telephone": "0561050505",
+      "commentaire": "Entretien des espaces verts de la capitale. Contrat pour l'optimisation écologique.",
+      "chiffreAffaire": 195000,
+      "nombreEmployes": 2,
+      "adresse": {
+        "identifiant": 105,
+        "numeroDeRue": "12",
+        "nomDeRue": "Nova Prime Avenue",
+        "codePostal": "10101",
+        "ville": "Xandar Prime"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 9,
+          "identifiantClient": 5,
+          "nomContrat": "Gestion Flore Exotique",
+          "montantContrat": "1400.00"
+        },
+        {
+          "identifiant": 10,
+          "identifiantClient": 5,
+          "nomContrat": "Optimisation Photosynthèse",
+          "montantContrat": "300.00"
+        },
+        {
+          "identifiant": 11,
+          "identifiantClient": 5,
+          "nomContrat": "Support Worldmind",
+          "montantContrat": "500.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 6,
+      "raisonSociale": "Sakaar Scrappers",
+      "adresseMail": "grandmaster@sakaar.arena",
+      "telephone": "0478060606",
+      "commentaire": "Récupération de déchets spatiaux. Exigences de sécurité importantes pour l'arène.",
+      "chiffreAffaire": 215000,
+      "nombreEmployes": 3,
+      "adresse": {
+        "identifiant": 106,
+        "numeroDeRue": "666",
+        "nomDeRue": "Contest Boulevard",
+        "codePostal": "88888",
+        "ville": "Sakaar City"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 12,
+          "identifiantClient": 6,
+          "nomContrat": "Sécurité Portail Dimensionnel",
+          "montantContrat": "1350.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 7,
+      "raisonSociale": "Madripoor Imports",
+      "adresseMail": "broker@madripoor.low",
+      "telephone": "0383070707",
+      "commentaire": "Micro-échange de marchandises rares. A besoin d'un logiciel de suivi discret.",
+      "chiffreAffaire": 250000,
+      "nombreEmployes": 5,
+      "adresse": {
+        "identifiant": 107,
+        "numeroDeRue": "77",
+        "nomDeRue": "Lowtown Alley",
+        "codePostal": "98000",
+        "ville": "Madripoor"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 13,
+          "identifiantClient": 7,
+          "nomContrat": "Conseil Conformité Douanière",
+          "montantContrat": "900.00"
+        },
+        {
+          "identifiant": 14,
+          "identifiantClient": 7,
+          "nomContrat": "Logiciel Cryptage Flux",
+          "montantContrat": "750.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 8,
+      "raisonSociale": "Titan Salvage",
+      "adresseMail": "survivor@titan.ruins",
+      "telephone": "0556080808",
+      "commentaire": "Récupération de technologies sur les ruines. Contrats de support technique.",
+      "chiffreAffaire": 175000,
+      "nombreEmployes": 2,
+      "adresse": {
+        "identifiant": 108,
+        "numeroDeRue": "Sector 9",
+        "nomDeRue": "Thanos Origin Place",
+        "codePostal": "99001",
+        "ville": "Titan (Ruines)"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 15,
+          "identifiantClient": 8,
+          "nomContrat": "Analyse Structurelle Ruines",
+          "montantContrat": "1200.00"
+        },
+        {
+          "identifiant": 16,
+          "identifiantClient": 8,
+          "nomContrat": "Support Drone Exploration",
+          "montantContrat": "280.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 9,
+      "raisonSociale": "Hala Tech Research",
+      "adresseMail": "science@kree.empire",
+      "telephone": "0240090909",
+      "commentaire": "Petite équipe de recherche Kree. Achat de logiciel de suivi génétique.",
+      "chiffreAffaire": 220000,
+      "nombreEmployes": 3,
+      "adresse": {
+        "identifiant": 109,
+        "numeroDeRue": "Alpha-1",
+        "nomDeRue": "Supreme Intelligence Way",
+        "codePostal": "99002",
+        "ville": "Kree-Lar (Hala)"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 17,
+          "identifiantClient": 9,
+          "nomContrat": "Logiciel Analyse Génome",
+          "montantContrat": "1150.00"
+        }
+      ]
+    },
+    {
+      "identifiant": 10,
+      "raisonSociale": "Kyln Security Solutions",
+      "adresseMail": "warden@kyln.prison",
+      "telephone": "0320101010",
+      "commentaire": "Fournisseur de systèmes de verrouillage pour la prison. Petit périmètre.",
+      "chiffreAffaire": 190000,
+      "nombreEmployes": 5,
+      "adresse": {
+        "identifiant": 110,
+        "numeroDeRue": "Block A",
+        "nomDeRue": "Panopticon Circle",
+        "codePostal": "99003",
+        "ville": "The Kyln"
+      },
+      "listeContrats": [
+        {
+          "identifiant": 18,
+          "identifiantClient": 10,
+          "nomContrat": "Système Verrouillage V2",
+          "montantContrat": "1100.00"
+        },
+        {
+          "identifiant": 19,
+          "identifiantClient": 10,
+          "nomContrat": "Formation Gardiens T2",
+          "montantContrat": "850.00"
+        }
+      ]
+    }
+  ],
+  "prospects": [
+    {
+      "identifiant": 11,
+      "raisonSociale": "Pym Technologies",
+      "adresseMail": "hank@pym.tech",
+      "telephone": "0491111111",
+      "commentaire": "Start-up spécialisée en particules subatomiques. Démo prévue pour notre solution quantique.",
+      "adresse": {
+        "identifiant": 201,
+        "numeroDeRue": "10",
+        "nomDeRue": "Treasure Island Road",
+        "codePostal": "94130",
+        "ville": "San Francisco (Terre)"
+      },
+      "dateProspection": "2025-11-15",
+      "interet": "OUI"
+    },
+    {
+      "identifiant": 12,
+      "raisonSociale": "Sovereign Batteries",
+      "adresseMail": "ayesha@sovereign.gold",
+      "telephone": "0140121212",
+      "commentaire": "Transporteur d'énergie Anulax. Besoin urgent de traçabilité (très susceptibles).",
+      "adresse": {
+        "identifiant": 202,
+        "numeroDeRue": "1",
+        "nomDeRue": "Gold Chamber",
+        "codePostal": "77777",
+        "ville": "Sovereign"
+      },
+      "dateProspection": "2025-10-01",
+      "interet": "OUI"
+    },
+    {
+      "identifiant": 13,
+      "raisonSociale": "Vormir Soul Seekers",
+      "adresseMail": "keeper@vormir.stone",
+      "telephone": "0607131313",
+      "commentaire": "Petit groupe de pèlerins. Pas de retour sur la proposition de guide GPS.",
+      "adresse": {
+        "identifiant": 203,
+        "numeroDeRue": "0",
+        "nomDeRue": "Mountain Top",
+        "codePostal": "66600",
+        "ville": "Vormir"
+      },
+      "dateProspection": "2025-09-20",
+      "interet": "INCONNU"
+    },
+    {
+      "identifiant": 14,
+      "raisonSociale": "Ego Terraforming",
+      "adresseMail": "peter@ego.dad",
+      "telephone": "0388141414",
+      "commentaire": "Opérateur d'expansion planétaire. A jugé notre solution trop envahissante.",
+      "adresse": {
+        "identifiant": 204,
+        "numeroDeRue": "1",
+        "nomDeRue": "Brain Center",
+        "codePostal": "44444",
+        "ville": "Ego (La Planète Vivante)"
+      },
+      "dateProspection": "2025-11-10",
+      "interet": "NON"
+    },
+    {
+      "identifiant": 15,
+      "raisonSociale": "Kamar-Taj Wifi",
+      "adresseMail": "wong@sanctum.magic",
+      "telephone": "0561151515",
+      "commentaire": "Gestion du réseau pour les sorciers. Très intéressé par une meilleure bande passante.",
+      "adresse": {
+        "identifiant": 205,
+        "numeroDeRue": "7",
+        "nomDeRue": "Temple Way",
+        "codePostal": "11111",
+        "ville": "Katmandou (Terre)"
+      },
+      "dateProspection": "2025-11-18",
+      "interet": "OUI"
+    },
+    {
+      "identifiant": 16,
+      "raisonSociale": "Oscorp Genetics",
+      "adresseMail": "norman@oscorp.evil",
+      "telephone": "0478161616",
+      "commentaire": "Labo de génétique croisée. En attente de validation budgétaire (le patron est instable).",
+      "adresse": {
+        "identifiant": 206,
+        "numeroDeRue": "200",
+        "nomDeRue": "Avenue of the Americas",
+        "codePostal": "10019",
+        "ville": "New York (Terre)"
+      },
+      "dateProspection": "2025-10-25",
+      "interet": "INCONNU"
+    },
+    {
+      "identifiant": 17,
+      "raisonSociale": "Jotunheim Ice Storage",
+      "adresseMail": "laufey@jotun.ice",
+      "telephone": "0383171717",
+      "commentaire": "Entrepôt frigorifique. Projet reporté (trop froid pour nos techniciens). Classé froid.",
+      "adresse": {
+        "identifiant": 207,
+        "numeroDeRue": "99",
+        "nomDeRue": "Frost Giant Valley",
+        "codePostal": "22222",
+        "ville": "Jotunheim"
+      },
+      "dateProspection": "2025-08-01",
+      "interet": "NON"
+    },
+    {
+      "identifiant": 18,
+      "raisonSociale": "Quantum Realm Explorers",
+      "adresseMail": "scott@quantum.micro",
+      "telephone": "0556181818",
+      "commentaire": "Compagnie de voyage microscopique. Négociation finale sur les risques de dilatation temporelle.",
+      "adresse": {
+        "identifiant": 208,
+        "numeroDeRue": "0.001",
+        "nomDeRue": "Axia Central",
+        "codePostal": "00001",
+        "ville": "Axia (Royaume Quantique)"
+      },
+      "dateProspection": "2025-11-05",
+      "interet": "OUI"
+    },
+    {
+      "identifiant": 19,
+      "raisonSociale": "Latveria School of Bots",
+      "adresseMail": "doom@latveria.gov",
+      "telephone": "0240191919",
+      "commentaire": "Centre de formation robotique. Contact difficile (le dirigeant parle à la 3ème personne).",
+      "adresse": {
+        "identifiant": 209,
+        "numeroDeRue": "1",
+        "nomDeRue": "Doomstadt Square",
+        "codePostal": "99900",
+        "ville": "Doomstadt (Latveria)"
+      },
+      "dateProspection": "2025-09-10",
+      "interet": "INCONNU"
+    },
+    {
+      "identifiant": 20,
+      "raisonSociale": "Ten Rings Dojo",
+      "adresseMail": "wenwu@tenrings.org",
+      "telephone": "0320202020",
+      "commentaire": "Organisation locale d'arts martiaux. Premier contact positif pour une mission de sécurité informatique.",
+      "adresse": {
+        "identifiant": 210,
+        "numeroDeRue": "888",
+        "nomDeRue": "Hidden Mountain",
+        "codePostal": "88800",
+        "ville": "Ta Lo"
+      },
+      "dateProspection": "2025-11-20",
+      "interet": "OUI"
+    }
+  ]
+}

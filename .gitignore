@@ -1,0 +1,47 @@
+# ----------------------------
+# ChatGPT-generated .gitignore
+# Project: ECF Java Swing
+# ----------------------------
+
+# Compiled class files
+*.class
+
+# Logs
+*.Logs
+
+# IDE / Editor
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Build output
+/out/
+/target/
+/build/
+
+
+# Package files
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Crash reports
+hs_err_pid*
+replay_pid*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.log

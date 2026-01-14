@@ -7,7 +7,9 @@ import fr.cda.java.model.liste.Clients;
 import fr.cda.java.model.liste.Prospects;
 import fr.cda.java.model.util.Adresse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -23,7 +25,7 @@ public class Client extends Societe {
 
     long chiffreAffaire;
     int nombreEmployes;
-    List<Contrat> listeContrats = new ArrayList<>();
+    Map<Integer, Contrat> listeContrats = new HashMap<>();
 
     /**
      * Construit un client à partir de l'integralité de ses données.
@@ -68,14 +70,14 @@ public class Client extends Societe {
     /**
      * @return listeContrats description
      */
-    public List<Contrat> getListeContrats() {
+    public  Map<Integer, Contrat> getListeContrats() {
         return listeContrats;
     }
 
     /**
      * @param listeContrats description
      */
-    public void setListeContrats(List<Contrat> listeContrats) {
+    public void setListeContrats( Map<Integer, Contrat> listeContrats) {
 
         this.listeContrats = listeContrats;
     }

@@ -106,7 +106,7 @@ public class FormulaireSociete extends JDialog {
             public void actionPerformed(ActionEvent e) {
 
                 GestionContrats gestionContrats = new GestionContrats((Client) societe,
-                        typeAction.equals(TypeAction.AFFICHER));
+                        typeAction);
                 gestionContrats.pack();
                 gestionContrats.setVisible(true);
 

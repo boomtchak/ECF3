@@ -1,8 +1,10 @@
 import fr.cda.java.Logger.AppLogger;
 import fr.cda.java.dao.Dao;
 import fr.cda.java.vue.Acceuil;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 
@@ -13,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 void main() {
     AppLogger.initFileLogger();
-
+    UIManager.put("Button.disabledText", Color.BLUE); // Ou une couleur plus lisible que le gris
     Acceuil dialog = new Acceuil();
     try {
         Dao.charger();

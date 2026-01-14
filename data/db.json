@@ -6,15 +6,15 @@
       "identifiant": 4,
       "adresse": {
         "ville": "Ego (La Planète Vivante)",
-        "nomDeRue": "Brain Center",
         "identifiant": 20,
+        "nomDeRue": "Brain Center",
         "numeroDeRue": "1",
         "codePostal": "44444"
       },
       "telephone": "0388141414",
       "commentaire": "Opérateur d'expansion planétaire. A jugé notre solution trop envahissante.",
-      "interet": "NON",
-      "dateProspection": "2025-11-10"
+      "dateProspection": "2025-11-10",
+      "interet": "NON"
     },
     {
       "adresseMail": "laufey@jotun.ice",
@@ -22,15 +22,15 @@
       "identifiant": 7,
       "adresse": {
         "ville": "Jotunheim",
-        "nomDeRue": "Frost Giant Valley",
         "identifiant": 20,
+        "nomDeRue": "Frost Giant Valley",
         "numeroDeRue": "99",
         "codePostal": "22222"
       },
       "telephone": "0383171717",
       "commentaire": "Entrepôt frigorifique. Projet reporté (trop froid pour nos techniciens). Classé froid.",
-      "interet": "NON",
-      "dateProspection": "2025-08-01"
+      "dateProspection": "2025-08-01",
+      "interet": "NON"
     },
     {
       "adresseMail": "wong@sanctum.magic",
@@ -38,15 +38,15 @@
       "identifiant": 5,
       "adresse": {
         "ville": "Katmandou (Terre)",
-        "nomDeRue": "Temple Way",
         "identifiant": 20,
+        "nomDeRue": "Temple Way",
         "numeroDeRue": "7",
         "codePostal": "11111"
       },
       "telephone": "0561151515",
       "commentaire": "Gestion du réseau pour les sorciers. Très intéressé par une meilleure bande passante.",
-      "interet": "OUI",
-      "dateProspection": "2025-11-18"
+      "dateProspection": "2025-11-18",
+      "interet": "OUI"
     },
     {
       "adresseMail": "doom@latveria.gov",
@@ -54,15 +54,15 @@
       "identifiant": 9,
       "adresse": {
         "ville": "Doomstadt (Latveria)",
-        "nomDeRue": "Doomstadt Square",
         "identifiant": 20,
+        "nomDeRue": "Doomstadt Square",
         "numeroDeRue": "1",
         "codePostal": "99900"
       },
       "telephone": "0240191919",
       "commentaire": "Centre de formation robotique. Contact difficile (le dirigeant parle à la 3ème personne).",
-      "interet": "INCONNU",
-      "dateProspection": "2025-09-10"
+      "dateProspection": "2025-09-10",
+      "interet": "INCONNU"
     },
     {
       "adresseMail": "norman@oscorp.evil",
@@ -70,15 +70,15 @@
       "identifiant": 6,
       "adresse": {
         "ville": "New York (Terre)",
-        "nomDeRue": "Avenue of the Americas",
         "identifiant": 20,
+        "nomDeRue": "Avenue of the Americas",
         "numeroDeRue": "200",
         "codePostal": "10019"
       },
       "telephone": "0478161616",
       "commentaire": "Labo de génétique croisée. En attente de validation budgétaire (le patron est instable).",
-      "interet": "INCONNU",
-      "dateProspection": "2025-10-25"
+      "dateProspection": "2025-10-25",
+      "interet": "INCONNU"
     },
     {
       "adresseMail": "hank@pym.tech",
@@ -86,15 +86,15 @@
       "identifiant": 1,
       "adresse": {
         "ville": "San Francisco (Terre)",
-        "nomDeRue": "Treasure Island Road",
         "identifiant": 20,
+        "nomDeRue": "Treasure Island Road",
         "numeroDeRue": "10",
         "codePostal": "94130"
       },
       "telephone": "0491111111",
       "commentaire": "Start-up spécialisée en particules subatomiques. Démo prévue pour notre solution quantique.",
-      "interet": "OUI",
-      "dateProspection": "2025-11-15"
+      "dateProspection": "2025-11-15",
+      "interet": "OUI"
     },
     {
       "adresseMail": "scott@quantum.micro",
@@ -102,15 +102,15 @@
       "identifiant": 8,
       "adresse": {
         "ville": "Axia (Royaume Quantique)",
-        "nomDeRue": "Axia Central",
         "identifiant": 20,
+        "nomDeRue": "Axia Central",
         "numeroDeRue": "0.001",
         "codePostal": "00001"
       },
       "telephone": "0556181818",
       "commentaire": "Compagnie de voyage microscopique. Négociation finale sur les risques de dilatation temporelle.",
-      "interet": "OUI",
-      "dateProspection": "2025-11-05"
+      "dateProspection": "2025-11-05",
+      "interet": "OUI"
     },
     {
       "adresseMail": "ayesha@sovereign.gold",
@@ -118,15 +118,15 @@
       "identifiant": 2,
       "adresse": {
         "ville": "Sovereign",
-        "nomDeRue": "Gold Chamber",
         "identifiant": 20,
+        "nomDeRue": "Gold Chamber",
         "numeroDeRue": "1",
         "codePostal": "77777"
       },
       "telephone": "0140121212",
       "commentaire": "Transporteur d'énergie Anulax. Besoin urgent de traçabilité (très susceptibles).",
-      "interet": "OUI",
-      "dateProspection": "2025-10-01"
+      "dateProspection": "2025-10-01",
+      "interet": "OUI"
     },
     {
       "adresseMail": "wenwu@tenrings.org",
@@ -134,15 +134,15 @@
       "identifiant": 10,
       "adresse": {
         "ville": "Ta Lo",
-        "nomDeRue": "Hidden Mountain",
         "identifiant": 20,
+        "nomDeRue": "Hidden Mountain",
         "numeroDeRue": "888",
         "codePostal": "88800"
       },
       "telephone": "0320202020",
       "commentaire": "Organisation locale d'arts martiaux. Premier contact positif pour une mission de sécurité informatique.",
-      "interet": "OUI",
-      "dateProspection": "2025-11-20"
+      "dateProspection": "2025-11-20",
+      "interet": "OUI"
     },
     {
       "adresseMail": "keeper@vormir.stone",
@@ -150,25 +150,25 @@
       "identifiant": 3,
       "adresse": {
         "ville": "Vormir",
-        "nomDeRue": "Mountain Top",
         "identifiant": 20,
+        "nomDeRue": "Mountain Top",
         "numeroDeRue": "0",
         "codePostal": "66600"
       },
       "telephone": "0607131313",
       "commentaire": "Petit groupe de pèlerins. Pas de retour sur la proposition de guide GPS.",
-      "interet": "INCONNU",
-      "dateProspection": "2025-09-20"
+      "dateProspection": "2025-09-20",
+      "interet": "INCONNU"
     }
   ],
   "clients": [
     {
-      "listeContrats": [{
+      "listeContrats": {"6": {
         "identifiant": 6,
-        "montantContrat": "1100.00",
+        "montantContrat": 1100,
         "nomContrat": "Licence Gestion Chaleur Étoile",
         "identifiantClient": 3
-      }],
+      }},
       "adresseMail": "smith@nidavellir.realms",
       "raisonSociale": "Asgardian Forges",
       "identifiant": 3,
@@ -176,8 +176,8 @@
       "nombreEmployes": 2,
       "adresse": {
         "ville": "Asgard City",
-        "nomDeRue": "Rainbow Bridge Road",
         "identifiant": 20,
+        "nomDeRue": "Rainbow Bridge Road",
         "numeroDeRue": "1",
         "codePostal": "00009"
       },
@@ -185,12 +185,20 @@
       "commentaire": "Atelier de forge pour armes légendaires. Achat d'un logiciel de simulation thermique stellaire."
     },
     {
-      "listeContrats": [{
-        "identifiant": 17,
-        "montantContrat": "1150.00",
-        "nomContrat": "Logiciel Analyse Génome",
-        "identifiantClient": 9
-      }],
+      "listeContrats": {
+        "17": {
+          "identifiant": 17,
+          "montantContrat": 1150,
+          "nomContrat": "Logiciel Analyse Génome",
+          "identifiantClient": 9
+        },
+        "20": {
+          "identifiant": 20,
+          "montantContrat": 1150,
+          "nomContrat": "Logiciel Analyseffdsfds Génome",
+          "identifiantClient": 9
+        }
+      },
       "adresseMail": "science@kree.empire",
       "raisonSociale": "Hala Tech Research",
       "identifiant": 9,
@@ -198,8 +206,8 @@
       "nombreEmployes": 3,
       "adresse": {
         "ville": "Kree-Lar (Hala)",
-        "nomDeRue": "Supreme Intelligence Way",
         "identifiant": 20,
+        "nomDeRue": "Supreme Intelligence Way",
         "numeroDeRue": "Alpha-1",
         "codePostal": "99002"
       },
@@ -207,26 +215,26 @@
       "commentaire": "Petite équipe de recherche Kree. Achat de logiciel de suivi génétique."
     },
     {
-      "listeContrats": [
-        {
-          "identifiant": 3,
-          "montantContrat": "1500.00",
-          "nomContrat": "Support Scaphandres Cosmo",
-          "identifiantClient": 2
-        },
-        {
+      "listeContrats": {
+        "4": {
           "identifiant": 4,
-          "montantContrat": "800.00",
+          "montantContrat": 800,
           "nomContrat": "Audit Sécurité Musée",
           "identifiantClient": 2
         },
-        {
+        "5": {
           "identifiant": 5,
-          "montantContrat": "500.00",
+          "montantContrat": 500,
           "nomContrat": "Formation Soins Alien",
           "identifiantClient": 2
+        },
+        "3": {
+          "identifiant": 3,
+          "montantContrat": 1500,
+          "nomContrat": "Support Scaphandres Cosmo",
+          "identifiantClient": 2
         }
-      ],
+      },
       "adresseMail": "collector@knowhere.space",
       "raisonSociale": "Knowhere Mining Corp.",
       "identifiant": 2,
@@ -234,8 +242,8 @@
       "nombreEmployes": 3,
       "adresse": {
         "ville": "Knowhere",
-        "nomDeRue": "Cranial Cortex",
         "identifiant": 20,
+        "nomDeRue": "Cranial Cortex",
         "numeroDeRue": "Zone C",
         "codePostal": "99999"
       },
@@ -243,19 +251,12 @@
       "commentaire": "Opération d'extraction de fluide spinal Céleste. Contrats de sécurité vitaux."
     },
     {
-      "listeContrats": [
-        {
-          "identifiant": 18,
-          "montantContrat": "1100.00",
-          "nomContrat": "Système Verrouillage V2",
-          "identifiantClient": 10
-        },
-        {
+      "listeContrats": {
+        "19": {
           "identifiant": 19,
-          "montantContrat": "850.00",
+          "montantContrat": 850,
           "nomContrat": "Formation Gardiens T2",
           "identifiantClient": 10
-        }
-      ],
-      "adresseMail": "warden@kyln.prison",
-      "raiso
+        },
+        "18": {
+          "i

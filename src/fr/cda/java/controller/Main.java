@@ -1,5 +1,5 @@
 import fr.cda.java.Logger.AppLogger;
-import fr.cda.java.dao.Dao;
+import fr.cda.java.dao.JsonDao_Obsolete;
 import fr.cda.java.vue.Acceuil;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,7 +18,7 @@ void main() {
     UIManager.put("Button.disabledText", Color.BLUE); // Ou une couleur plus lisible que le gris
     Acceuil dialog = new Acceuil();
     try {
-        Dao.charger();
+        JsonDao_Obsolete.charger();
 
     } catch (IOException e) {
         AppLogger.LOGGER.severe("Le chargement a rencontré un problème IO voir les droits");
@@ -54,7 +54,7 @@ void main() {
     } finally {
         try {
             //quoi qu'il arrive on tente la save.
-            Dao.sauvegarder();
+            JsonDao_Obsolete.sauvegarder();
 
         } catch (IOException e) {
             // si il y a un plantage ici, on sait que la sauvegarde est en cause.

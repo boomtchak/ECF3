@@ -19,10 +19,10 @@ public class Contrat {
     private int identifiant;
     private int identifiantClient;
     private String nomContrat;
-    private String montantContrat;
+    private double montantContrat;
 
     public Contrat(int identifiantClient, String nomContrat,
-            String montantContrat) {
+            double montantContrat) {
         this.setIdentifiant(compteurIdentifiant);
         this.setIdentifiantClient(identifiantClient);
         this.setNomContrat(nomContrat);
@@ -35,7 +35,7 @@ public class Contrat {
         this.setIdentifiant(json.getInt("identifiant"));
         this.setIdentifiantClient(json.getInt("identifiantClient"));
         this.setNomContrat(json.getString("nomContrat"));
-        this.setMontantContrat(json.getString("montantContrat"));
+        this.setMontantContrat(json.getDouble("montantContrat"));
         compteurIdentifiant++;
     }
 
@@ -94,15 +94,15 @@ public class Contrat {
     /**
      * @return montantContrat description
      */
-    public String getMontantContrat() {
+    public double getMontantContrat() {
         return montantContrat;
     }
 
     /**
      * @param montantContrat description
      */
-    public void setMontantContrat(String montantContrat) {
-        if (StringUtils.isBlank(montantContrat)) {
+    public void setMontantContrat(double montantContrat) {
+        if (montantContrat == 0) {
             throw new MandatoryDataException("montant du contrat");
         }
 

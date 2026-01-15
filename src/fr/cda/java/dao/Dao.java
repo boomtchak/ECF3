@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -83,12 +84,12 @@ public class Dao {
                 JSONObject clientJson = listeClients.getJSONObject(i);
                 Client client = new Client(clientJson);
                 JSONArray listeContratClients = clientJson.getJSONArray("listeContrats");
-                List<Contrat> listeContrats = new ArrayList<>();
+                Map<Integer, Contrat> listeContrats = new HashMap<>();
                 if (!listeContratClients.isEmpty()) {
                     for (int j = 0; j < listeContratClients.length(); j++) {
                         JSONObject contratJson = listeContratClients.getJSONObject(j);
                         Contrat contrat = new Contrat(contratJson);
-                        listeContrats.add(contrat);
+                        listeContrats.put(contrat.getIdentifiant(), contrat);
                     }
                 }
                 client.setListeContrats(listeContrats);

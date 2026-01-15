@@ -24,7 +24,7 @@ class ContratTest {
     Client client = new Client("ContratTest", adresse,
             "0633710842", "nordine.sefroun@laposte.net", "commentaire",
             220, 14);
-    Contrat instance = new Contrat(client.getIdentifiant(), "contrat de test", "400");
+    Contrat instance = new Contrat(client.getIdentifiant(), "contrat de test", 400);
 
 
     @ParameterizedTest(name = "Cas OK")
@@ -59,8 +59,8 @@ class ContratTest {
 
     @ParameterizedTest(name = "Cas OK")
     @DisplayName("✅ Test de succès pour setMontantContrat")
-    @ValueSource(strings = {"55"})
-    void setMontantContratOk(String input) {
+    @ValueSource(doubles = {55})
+    void setMontantContratOk(double input) {
 
         assertDoesNotThrow(() -> {
             instance.setMontantContrat(input);
@@ -72,7 +72,7 @@ class ContratTest {
     void setMontantContratKo() {
 
         assertThrows(MandatoryDataException.class, () -> {
-            instance.setMontantContrat("");
+            instance.setMontantContrat(0);
         }, "Tous les champs sont obligatoires  : le champs montant du contrat n'est pas renseigné");
     }
 

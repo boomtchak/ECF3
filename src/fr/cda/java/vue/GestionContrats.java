@@ -17,6 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -44,66 +47,118 @@ public class GestionContrats extends JDialog {
     private TypeAction typeAction;
 
     public GestionContrats(Client client, TypeAction typeAction) {
-        this.typeAction = typeAction;
-        this(client, false);
-        supprimerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                modifierButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        for (Contrat contrat : client.getListeContrats()) {
-                            if (contrat.getIdentifiant() == getSelectedContrat().getIdentifiant()) {
-                                client.getListeContrats().remove(client);
-                            }
-                        }
-                    }
-                });
-            }
-        });
-        tableauContrats.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
 
-                // (une fois quand on appuie sur la souris, une fois quand on relâche)
-                if (!e.getValueIsAdjusting()) {
-                    if (tableauContrats.getSelectedRows() != null) {
-                        selectedContrat = client.getListeContrats().get(
-                                (int) tableauContrats.getValueAt(tableauContrats.getSelectedRow()-1,
-                                        0));
-                        bindingSetters();
-                    }
-                }
-            }
-        });
-    }
-
-
-    public GestionContrats(Client client, boolean isAffichage) {
         this.client = client;
-        this.isAffichage = isAffichage;
+        isAffichage = typeAction.equals(TypeAction.AFFICHER);
         this.setTitle("Gestion des contrats");
-        blocFormulaire.setVisible(!isAffichage);
+        //blocFormulaire.setVisible(!isAffichage);
+        modifierButton.setVisible(!isAffichage);
         sauvegarderButton.setVisible(!isAffichage);
+        enableFormulaire(isAffichage);
         remplissageJTable();
-        bindingSetters();
+        remplirFormulaire();
+        enableButtons(false);
         setContentPane(contentPane);
         setModal(true);
         tableauContrats.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        if (isAffichage) {
 
-            disableFormulaire(true);
-        }
+        nomCtTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                modification(e);
+            }
 
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                modification(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                modification(e);
+            }
+
+            private void modification(DocumentEvent e) {
+                if (!nomCtTextField.getText().equals(selectedContrat.getNomContrat())) {
+                    sauvegarderButton.setEnabled(!isAffichage);
+                }
+            }
+        });
+        montantCtTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent e) {
+                char c = e.getKeyChar();
+                // Si ce n'est pas un chiffre, pas un point, et pas un 'backspace'
+                if (!(Character.isDigit(c) || (c == java.awt.event.KeyEvent.VK_BACK_SPACE) || (c
+                        == '.'))) {
+                    e.consume();
+                }
+                // Empêche d'avoir deux points
+                if (c == '.' && montantCtTextField.getText().contains(".")) {
+                    e.consume();
+                }
+            }
+        });
+        montantCtTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                modification(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                modification(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                modification(e);
+            }
+
+            private void modification(DocumentEvent e) {
+                try {
+                    if (Double.valueOf(montantCtTextField.getText())
+                            != selectedContrat.getMontantContrat()) {
+                        sauvegarderButton.setEnabled(!isAffichage);
+                    }
+                } catch (NumberFormatException ex) {
+                    SwingUtilities.invokeLater(() -> {
+                        if (selectedContrat != null) {
+                            montantCtTextField.setText(
+                                    String.valueOf(selectedContrat.getMontantContrat()));
+                        } else {
+                            montantCtTextField.setText("0");
+                        }
+                        // On sélectionne tout pour que l'utilisateur puisse retaper
+                        montantCtTextField.selectAll();
+                    });
+                }
+            }
+        });
         sauvegarderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 afficherErreur("");
                 try {
-                    Contrat contrat = new Contrat(client.getIdentifiant(),
-                            nomCtTextField.getText(), montantCtTextField.getText());
-                    client.getListeContrats().add(contrat);
+                    if (selectedContrat != null) {
+
+                        selectedContrat.setNomContrat(nomCtTextField.getText());
+                        selectedContrat.setMontantContrat(
+                                Double.valueOf(montantCtTextField.getText()));
+                        client.getListeContrats()
+                                .put(selectedContrat.getIdentifiant(), selectedContrat);
+                    } else {
+                        Contrat contrat = new Contrat(client.getIdentifiant(),
+                                nomCtTextField.getText(),
+                                Double.valueOf(montantCtTextField.getText()));
+                        client.getListeContrats().put(contrat.getIdentifiant(), contrat);
+
+                    }
+                    remplissageJTable();
+                    enableButtons(false);
+                } catch (NumberFormatException ex) {
+                    afficherErreur("Format invalide. Veuillez saisir un nombre (ex: 15.50)");
+                    montantCtTextField.requestFocus();
                 } catch (MandatoryDataException ex) {
                     afficherErreur(ex.getMessage());
                 } catch (RegexException ex) {
@@ -111,36 +166,60 @@ public class GestionContrats extends JDialog {
                 }
             }
         });
+        supprimerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                client.getListeContrats().remove(selectedContrat.getIdentifiant());
+                selectedContrat = null;
+                enableButtons(false);
+                remplissageJTable();
+
+            }
+        });
+        tableauContrats.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tableauContrats.getSelectedRow();
+
+                    // Vérification si une ligne est réellement sélectionnée
+                    if (selectedRow != -1) {
+                        // Conversion de l'index pour gérer le tri/filtre éventuel
+                        int modelRow = tableauContrats.convertRowIndexToModel(selectedRow);
+
+                        // Récupération sécurisée de l'objet
+                        // On récupère l'ID caché en colonne 0 pour retrouver l'objet dans la liste
+                        int indexInList = (int) tableauContrats.getModel().getValueAt(modelRow, 0);
+
+                        selectedContrat = client.getListeContrats().get(indexInList);
+                        supprimerButton.setEnabled(!isAffichage);
+                        modifierButton.setEnabled(!isAffichage);
+                        afficherButton.setEnabled(true);
+                    }
+                }
+            }
+        });
         afficherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                bindingSetters();
-                disableFormulaire(true);
+                remplirFormulaire();
+                enableFormulaire(false);
                 sauvegarderButton.setEnabled(false);
-            }
-        });
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-        tableauContrats.getSelectionModel().addListSelectionListener(event -> {
-            if (!event.getValueIsAdjusting()) {
-
-                // 2. On vérifie si une ligne est bien sélectionnée
-                if (tableauContrats.getSelectedRow() != -1) {
-                    selectedContrat = getSelectedContrat();
-                    disableButtons(false);
-                }
             }
         });
         modifierButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bindingSetters();
-                disableFormulaire(true);
-                sauvegarderButton.setEnabled(false);
+
+                remplirFormulaire();
+                enableFormulaire(!isAffichage);
+                sauvegarderButton.setEnabled(!isAffichage);
+            }
+        });
+        buttonCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
             }
         });
     }
@@ -169,7 +248,7 @@ public class GestionContrats extends JDialog {
         modelTable = new DefaultTableModel(new Object[][]{}, entetes.toArray());
 
         // 4. Parcourir la liste de clients et ajouter chaque ligne
-        for (Contrat contrat : client.getListeContrats()) {
+        for (Contrat contrat : client.getListeContrats().values()) {
             Object[] dataRow = new Object[]{
                     contrat.getIdentifiant(),
                     client.getRaisonSociale(),
@@ -190,23 +269,18 @@ public class GestionContrats extends JDialog {
         tableauContrats.setModel(modelTable);
     }
 
-    private void creerListeComposants() {
-        listeChampsFormulaire.add(idTextField);
-        listeChampsFormulaire.add(raisonSocialeTextField);
-        listeChampsFormulaire.add(nomCtTextField);
-        listeChampsFormulaire.add(montantCtTextField);
-    }
-
 
     /**
      * permet de binder le contenu de mon objet avec les textfields (synchronizeViewToModel)
      */
-    private void bindingSetters() {
+    private void remplirFormulaire() {
 
         if (selectedContrat != null) {
+            idTextField.setText(String.valueOf(selectedContrat.getIdentifiant()));
             raisonSocialeTextField.setText(client.getRaisonSociale());
             nomCtTextField.setText(selectedContrat.getNomContrat());
-            montantCtTextField.setText(selectedContrat.getMontantContrat());
+            montantCtTextField.setText(
+                    String.valueOf(selectedContrat.getMontantContrat()));
         }
         if (!isAffichage) {
             idTextField.setText(String.valueOf(Contrat.compteurIdentifiant));
@@ -216,18 +290,21 @@ public class GestionContrats extends JDialog {
     /**
      *
      */
-    private void disableFormulaire(boolean desactive) {
+    private void enableFormulaire(boolean desactive) {
         for (JComponent component : listeChampsFormulaire) {
             component.setEnabled(desactive);
-
         }
+        idTextField.setEnabled(false);
+        raisonSocialeTextField.setEnabled(false);
+        nomCtTextField.setEnabled(desactive);
+        montantCtTextField.setEnabled(desactive);
     }
 
-    private void disableButtons(boolean desactive) {
+    private void enableButtons(boolean desactive) {
         afficherButton.setEnabled(desactive);
         supprimerButton.setEnabled(desactive);
-        modifierButton.setEnabled(desactive);
         sauvegarderButton.setEnabled(desactive);
+        modifierButton.setEnabled(desactive);
     }
 
     void afficherErreur(String message) {

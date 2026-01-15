@@ -1,6 +1,6 @@
 package fr.cda.java.vue;
 
-import fr.cda.java.dao.Dao;
+import fr.cda.java.dao.JsonDao_Obsolete;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.model.gestion.Societe;
@@ -50,7 +50,7 @@ public class Acceuil extends JDialog {
     /**
      * permet de sauvegarder charger
      */
-    private static Dao dao = new Dao();
+    private static JsonDao_Obsolete dao = new JsonDao_Obsolete();
 
     public Acceuil() {
 
@@ -111,7 +111,7 @@ public class Acceuil extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 // add your code here if necessary
                 try{
-                    Dao.sauvegarder();
+                    JsonDao_Obsolete.sauvegarder();
                 }catch (IOException exception){
                     System.out.println("erreur sauvegarde");
                 }

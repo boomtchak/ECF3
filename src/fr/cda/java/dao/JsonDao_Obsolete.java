@@ -10,9 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,7 +28,7 @@ import org.json.JSONTokener;
  * @version 1.0
  * @since 07/11/2025
  */
-public class Dao {
+public class JsonDao_Obsolete {
 
     private static final String FICHIER_DB = "data/db.json";
     private static final String REPERTOIRE_DATA = "data";

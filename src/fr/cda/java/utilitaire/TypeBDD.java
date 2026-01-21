@@ -1,5 +1,9 @@
 package fr.cda.java.utilitaire;
 
+import fr.cda.java.AccesDonnees.factory.AbstractDaoFactory;
+import fr.cda.java.AccesDonnees.factory.MongoDaoFactory;
+import fr.cda.java.AccesDonnees.factory.MySqlDaoFactory;
+
 /**
  * TypeBDD
  *
@@ -11,11 +15,23 @@ package fr.cda.java.utilitaire;
  */
 public enum TypeBDD {
     // technique Database
-    MYSQL,
+    MYSQL(new MySqlDaoFactory()),
     // technique crash appli
-    MONGO,
+    MONGO(new MongoDaoFactory()),
     // fonctionnelle Model
-    JSON;
+    JSON(null);
+
+    AbstractDaoFactory daoFactory;
 
 
+    TypeBDD(AbstractDaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
+
+    /**
+     * @return mySqlDaoFactory description
+     */
+    public AbstractDaoFactory getDaoFactory() {
+        return this.daoFactory;
+    }
 }

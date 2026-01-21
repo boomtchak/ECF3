@@ -1,5 +1,6 @@
-package fr.cda.java.AccesDonnees.dao;
+package fr.cda.java.AccesDonnees.daoImplementation.mongo;
 
+import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.model.gestion.Contrat;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @version 1.0
  * @since 15/01/2026
  */
-public class ContratDao implements DaoInterface<Contrat> {
+public class MongoContratDao implements DaoInterface<Contrat> {
 
 
 

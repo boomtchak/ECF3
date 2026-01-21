@@ -1,9 +1,10 @@
-package fr.cda.java.AccesDonnees.dao;
+package fr.cda.java.AccesDonnees.daoImplementation.mongo;
 
+import fr.cda.java.AccesDonnees.DaoInterface;
 import java.util.List;
 
 /**
- * ProspectDao
+ * MongoProspectDao
  *
  * <p>Description : …</p>
  *
@@ -11,7 +12,7 @@ import java.util.List;
  * @version 1.0
  * @since 16/01/2026
  */
-public class ProspectDao implements DaoInterface{
+public class MongoProspectDao implements DaoInterface {
 
     @Override
     public Object create(Object entite) {

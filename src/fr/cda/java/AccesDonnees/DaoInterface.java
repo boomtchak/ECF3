@@ -1,8 +1,7 @@
-package fr.cda.java.AccesDonnees.dao;
+package fr.cda.java.AccesDonnees;
 
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
-import fr.cda.java.gestionErreurs.TreatedExceptionService;
-import java.sql.SQLException;
+import fr.cda.java.AccesDonnees.Services.TreatedExceptionService;
 import java.util.List;
 
 /**
@@ -30,14 +29,14 @@ public interface DaoInterface<T> {
      * @param id
      * @return
      */
-    T getById(int id) throws TreatedException, SQLException;
+    T getById(int id) throws TreatedException;
 
     /**
      * Met à jour un objet.rien à renvoyer.
      *
      * @param objet
      */
-    void update(T entite) throws SQLException, TreatedException;
+    void update(T entite) throws TreatedException;
 
     /**
      *
@@ -45,12 +44,24 @@ public interface DaoInterface<T> {
      *
      * @param id
      */
-    void delete(int id);
+    void delete(int id) throws TreatedException;
 
     /**
      * retourne la liste complete.
      *
      * @return la liste complete.
      */
-    List<T> findAll();
+    List<T> findAll() throws TreatedException;
+
+    /**
+     * cette méthode est l'équivalente d'une abstracte.
+     * si elle n'est pas implémentée elle renvoie null. et elle n'est implémentée que dans contrat et dans adresse.
+     * @param parentId
+     * @return
+     */
+    default List<T> getByParentId(int parentId) {
+        return null;
+    }
+
+
 }

@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 /**
- * ProspectDao
+ * MongoProspectDao
  *
  * <p>Description : une simple classe bouchon,
  * qui permet de charger les données à l'ouverture de l'appli (voir init) depuis les fichiers et de

@@ -1,10 +1,11 @@
-package fr.cda.java.AccesDonnees.dao;
+package fr.cda.java.AccesDonnees.daoImplementation.mongo;
 
+import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.model.gestion.Client;
 import java.util.List;
 
 /**
- * ClientDao
+ * MySqlClientDao
  *
  * <p>Description : …</p>
  *
@@ -12,7 +13,7 @@ import java.util.List;
  * @version 1.0
  * @since 15/01/2026
  */
-public class ClientDao implements DaoInterface<Client> {
+public class MongoClientDao implements DaoInterface<Client> {
 
     @Override
     public Client create(Client entite) {

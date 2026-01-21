@@ -1,4 +1,4 @@
-package fr.cda.java.gestionErreurs;
+package fr.cda.java.AccesDonnees.Services;
 
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.utilitaire.LabelManager;
@@ -131,12 +131,16 @@ public class TreatedExceptionService {
             }
             case IOException s -> {
                 return new TreatedException(
-                        LabelManager.get("problème de lecture du fichier de configuration"),
+                        LabelManager.get(""),
                         Severite.ELEVEE, TypeErreur.APP_TECH);
             }
-
+            case ReflectiveOperationException s -> {
+                return new TreatedException(
+                        LabelManager.get("erreurInterne"),
+                        Severite.ELEVEE, TypeErreur.APP_TECH);
+            }
             default -> {
-                return new TreatedException(LabelManager.get("imprevue"), Severite.ELEVEE,
+                return new TreatedException(LabelManager.get("inconnue"), Severite.ELEVEE,
                         TypeErreur.APP_TECH);
             }
         }

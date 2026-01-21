@@ -1,0 +1,108 @@
+use('ecf_belleville_marseille');
+
+// 1. Collection CLIENTS (Le clan Malaussène à Belleville)
+db.clients.insertMany([
+  {
+    _id: 1,
+    raisonSociale: "Éditions du Grimoire (La Reine Zabo)",
+    telephone: "0142010101",
+    email: "zabo@belleville.pro",
+    commentaire: "Benjamin Malaussène y travaille comme bouc émissaire professionnel.",
+    chiffreAffaire: NumberLong(500000),
+    nombreEmployes: 12,
+    adresse: { numero: "18", rue: "rue de la Folie-Méricourt", cp: "75011", ville: "Paris" }
+  },
+  {
+    _id: 2,
+    raisonSociale: "Quincaillerie de la Vieille Garde",
+    telephone: "0145020202",
+    email: "danglard@quai-orfèvres.fr",
+    commentaire: "Fournisseur officiel de vin blanc pour Adrien Danglard.",
+    chiffreAffaire: NumberLong(45000),
+    nombreEmployes: 1,
+    adresse: { numero: "36", rue: "Quai des Orfèvres", cp: "75001", ville: "Paris" }
+  },
+  {
+    _id: 3,
+    raisonSociale: "Le Cinéma 'Le Zèbre'",
+    telephone: "0142030303",
+    email: "contact@lezebre.belleville",
+    commentaire: "Lieu de rencontre pour la tribu Malaussène.",
+    chiffreAffaire: NumberLong(85000),
+    nombreEmployes: 3,
+    adresse: { numero: "63", rue: "boulevard de Belleville", cp: "75011", ville: "Paris" }
+  },
+  {
+    _id: 4,
+    raisonSociale: "Pharmacie Postale",
+    telephone: "0142040404",
+    email: "sante@belleville.net",
+    commentaire: "Fournisseur officiel de la veuve Ho pour ses préparations.",
+    chiffreAffaire: NumberLong(120000),
+    nombreEmployes: 5,
+    adresse: { numero: "12", rue: "rue des Couronnes", cp: "75020", ville: "Paris" }
+  }
+]);
+
+// 2. Collection PROSPECTS (L'univers de Fabio Montale et Adamsberg)
+db.prospects.insertMany([
+  {
+    _id: 11,
+    raisonSociale: "Bar des Maraîchers (Marseille)",
+    telephone: "0491030303",
+    email: "foni@vieux-port.it",
+    commentaire: "Point de ralliement de Fabio Montale pour boire un pastis.",
+    dateProspection: ISODate("2026-01-20T00:00:00Z"),
+    interet: true,
+    adresse: { numero: "5", rue: "Quai du Port", cp: "13002", ville: "Marseille" }
+  },
+  {
+    _id: 12,
+    raisonSociale: "Cercle des Nuagistes",
+    telephone: "0148040404",
+    email: "adamsberg@nuages.net",
+    commentaire: "Groupe observant les cercles bleus sur les trottoirs.",
+    dateProspection: ISODate("2026-01-21T00:00:00Z"),
+    interet: null,
+    adresse: { numero: "102", rue: "rue de l'Amiral-Mouchez", cp: "75013", ville: "Paris" }
+  },
+  {
+    _id: 13,
+    raisonSociale: "Les Trois Lucs (Gîte de Montale)",
+    telephone: "0491131313",
+    email: "calanque@goudes.fr",
+    commentaire: "Une petite maison face à la mer, loin de la corruption.",
+    dateProspection: ISODate("2026-01-15T00:00:00Z"),
+    interet: true,
+    adresse: { numero: "42", rue: "Chemin des Goudes", cp: "13008", ville: "Marseille" }
+  },
+  {
+    _id: 14,
+    raisonSociale: "Librairie de l'Invisible",
+    telephone: "0142141414",
+    email: "vargas@adamsberg.fr",
+    commentaire: "Spécialisée dans les ouvrages sur la peste et les cercles bleus.",
+    dateProspection: ISODate("2025-12-10T00:00:00Z"),
+    interet: false,
+    adresse: { numero: "7", rue: "Garancière", cp: "75006", ville: "Paris" }
+  },
+  {
+    _id: 15,
+    raisonSociale: "Hôtel de la Ville d'Hiver",
+    telephone: "0556151515",
+    email: "arcachon@vargas.com",
+    commentaire: "Lieu de repli pour Adamsberg loin du Quai.",
+    dateProspection: ISODate("2026-01-05T00:00:00Z"),
+    interet: true,
+    adresse: { numero: "22", rue: "Victor Hugo", cp: "33120", ville: "Arcachon" }
+  }
+]);
+
+// 3. Collection CONTRATS (La paperasse de Belleville)
+db.contrats.insertMany([
+  { _id: 1, idClient: 1, nom: "Assurance Protection Bouc-Émissaire", montant: 2500.50 },
+  { _id: 2, idClient: 1, nom: "Abonnement Croquettes pour Julius", montant: 150.00 },
+  { _id: 3, idClient: 3, nom: "Maintenance Projecteur 35mm", montant: 450.00 },
+  { _id: 4, idClient: 4, nom: "Contrat de Nettoyage de Nuit", montant: 800.00 },
+  { _id: 5, idClient: 2, nom: "Fourniture de Pinot Noir", montant: 1200.00 }
+]);

@@ -1,14 +1,13 @@
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import fr.cda.java.Exceptions.MandatoryDataException;
-import fr.cda.java.Exceptions.RegexException;
-import fr.cda.java.Exceptions.UniciteException;
+import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
+import fr.cda.java.gestionErreurs.Exceptions.RegexException;
+import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
-import fr.cda.java.model.gestion.Societe;
-import fr.cda.java.model.util.Adresse;
-import fr.cda.java.model.util.Interet;
+import fr.cda.java.model.gestion.Adresse;
+import fr.cda.java.utilitaire.Interet;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +26,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @TestInstance(Lifecycle.PER_CLASS)
 class SocieteTest {
 
-    Adresse adresse = new Adresse("4", "rue de Berne", "68000", "COLMAR");
+    Adresse adresse = new Adresse(1, "4", "rue de Berne", "68000", "COLMAR");
     Client instance = new Client( "raisonSociale", adresse,
             "0633710842", "nordine.sefroun@laposte.net", "commentaire",
             10000, 250);
@@ -41,7 +40,7 @@ class SocieteTest {
     @DisplayName("✅ Test de succès pour setRaisonSociale")
     @ValueSource(strings = {"testOk"})
     void setRaisonSocialeOk(String input) {
-        Adresse adresse = new Adresse("4", "rue de Berne", "68000", "COLMAR");
+        Adresse adresse = new Adresse(1, "4", "rue de Berne", "68000", "COLMAR");
         Client instanceClient = new Client("raison Sociale", adresse,
                 "0633710842", "nordine.sefroun@laposte.net", "commentaire",
                 220, 14);

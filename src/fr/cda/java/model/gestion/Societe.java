@@ -1,9 +1,8 @@
 package fr.cda.java.model.gestion;
 
-import fr.cda.java.Exceptions.MandatoryDataException;
-import fr.cda.java.Exceptions.RegexException;
-import fr.cda.java.model.util.Adresse;
-import fr.cda.java.model.util.Regex;
+import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
+import fr.cda.java.gestionErreurs.Exceptions.RegexException;
+import fr.cda.java.utilitaire.Regex;
 import org.junit.platform.commons.util.StringUtils;
 
 /**

@@ -1,10 +1,10 @@
 package fr.cda.java.vue;
 
-import fr.cda.java.Exceptions.MandatoryDataException;
-import fr.cda.java.Exceptions.RegexException;
+import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
+import fr.cda.java.gestionErreurs.Exceptions.RegexException;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Contrat;
-import fr.cda.java.model.util.TypeAction;
+import fr.cda.java.utilitaire.TypeAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import fr.cda.java.Exceptions.MandatoryDataException;
-import fr.cda.java.Exceptions.donneeException;
+import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
+import fr.cda.java.gestionErreurs.Exceptions.donneeException;
 import fr.cda.java.model.gestion.Client;
-import fr.cda.java.model.util.Adresse;
+import fr.cda.java.model.gestion.Adresse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @TestInstance(Lifecycle.PER_CLASS)
 class ClientTest {
 
-    Adresse adresse = new Adresse("4", "rue de Berne", "68000", "COLMAR");
+    Adresse adresse = new Adresse(1, "4", "rue de Berne", "68000", "COLMAR");
     Client instance = new Client("ClientTest", adresse,
             "0633710842", "nordine.sefroun@laposte.net", "commentaire",
             220, 14);

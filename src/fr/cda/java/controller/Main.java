@@ -1,5 +1,5 @@
-import fr.cda.java.Logger.AppLogger;
-import fr.cda.java.dao.JsonDao_Obsolete;
+import fr.cda.java.AccesDonnees.dao.JsonDao_Obsolete;
+import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.vue.Acceuil;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +18,12 @@ void main() {
     UIManager.put("Button.disabledText", Color.BLUE); // Ou une couleur plus lisible que le gris
     Acceuil dialog = new Acceuil();
     try {
+        // on lit les valeurs du fichier, pas à pas, le but c'est de bien comprendre
+        //  c'est ici que la langue est choisie
+        File fichier = new File("dataProperties/fr.properties");
+        FileInputStream input = new FileInputStream(fichier);
+        Properties dataProperties = new Properties();
+        dataProperties.load(input);
         JsonDao_Obsolete.charger();
 
     } catch (IOException e) {

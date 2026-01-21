@@ -1,11 +1,11 @@
 package fr.cda.java.vue;
 
-import fr.cda.java.dao.JsonDao_Obsolete;
+import fr.cda.java.AccesDonnees.dao.JsonDao_Obsolete;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.model.gestion.Societe;
-import fr.cda.java.model.util.TypeAction;
-import fr.cda.java.model.util.TypeSociete;
+import fr.cda.java.utilitaire.TypeAction;
+import fr.cda.java.utilitaire.TypeSociete;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

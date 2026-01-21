@@ -1,8 +1,9 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import fr.cda.java.Exceptions.MandatoryDataException;
-import fr.cda.java.Exceptions.RegexException;
-import fr.cda.java.model.util.Adresse;
+import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
+import fr.cda.java.gestionErreurs.Exceptions.RegexException;
+import fr.cda.java.model.gestion.Adresse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -11,15 +12,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tous les champs de l’adresse devront être renseignés
- * Le code postal sera vérifié par un Regex (il devra
- * comporter 5 chiffres)
+ * Tous les champs de l’adresse devront être renseignés Le code postal sera vérifié par un Regex (il
+ * devra comporter 5 chiffres)
  */
 @TestInstance(Lifecycle.PER_CLASS)
 class AdresseTest {
 
-    Adresse instance = new Adresse("4", "rue de Berne", "68000", "COLMAR");
-
+    Adresse instance = new Adresse(1, "4", "rue de Berne", "68000", "COLMAR");
 
 
     @ParameterizedTest(name = "Cas OK")
@@ -34,7 +33,7 @@ class AdresseTest {
 
     @ParameterizedTest(name = "Cas OK")
     @DisplayName("✅ Test de succès pour setNomDeRue")
-    @ValueSource(strings = { "rue des rues"})
+    @ValueSource(strings = {"rue des rues"})
     void setNomDeRueOk(String input) {
 
         assertDoesNotThrow(() -> {
@@ -75,7 +74,6 @@ class AdresseTest {
     @DisplayName("❌ Test d'échec pour setCodePostal")
     @ValueSource(strings = {"999999", "123456"})
     void setCodePostalKo(String input) {
-
 
         assertThrows(RegexException.class, () -> {
             instance.setCodePostal(input);

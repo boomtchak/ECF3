@@ -1,16 +1,16 @@
 package fr.cda.java.vue;
 
-import fr.cda.java.Exceptions.AffichageException;
-import fr.cda.java.Exceptions.MandatoryDataException;
-import fr.cda.java.Exceptions.RegexException;
-import fr.cda.java.Exceptions.UniciteException;
+import fr.cda.java.gestionErreurs.Exceptions.AffichageException;
+import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
+import fr.cda.java.gestionErreurs.Exceptions.RegexException;
+import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.model.gestion.Societe;
-import fr.cda.java.model.util.Adresse;
-import fr.cda.java.model.util.Interet;
-import fr.cda.java.model.util.TypeAction;
-import fr.cda.java.model.util.TypeSociete;
+import fr.cda.java.model.gestion.Adresse;
+import fr.cda.java.utilitaire.Interet;
+import fr.cda.java.utilitaire.TypeAction;
+import fr.cda.java.utilitaire.TypeSociete;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -256,7 +256,7 @@ public class FormulaireSociete extends JDialog {
      * @throws UniciteException
      */
     private Societe getSociete() throws MandatoryDataException, RegexException, UniciteException {
-        Adresse adresse = new Adresse(numRueTextField.getText(), nomRueTextField.getText(),
+        Adresse adresse = new Adresse(1,numRueTextField.getText(), nomRueTextField.getText(),
                 cpTextField.getText(), villeTextField.getText());
         Societe retour = null;
         if (typeSociete.equals(TypeSociete.CLIENT)){

@@ -24,6 +24,25 @@ public class Connexion{
     private Connection connection;
 
     /**
+     * BLOC STATIC : Enregistrement du crochet de fermeture (Shutdown Hook).
+     * S'exécute dès que la classe est sollicitée.
+     */
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                if (instance != null && instance.connection != null && !instance.connection.isClosed()) {
+                    instance.connection.close();
+                    // On utilise System.out car le Logger peut déjà être éteint par la JVM à ce stade
+                    System.out.println("[INFO] Database fermée proprement par le Shutdown Hook.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
+
+    /**
      * constructeur privé, tout ce qu'on peut appeler, c'est getConnexion. il possede une seule instance, contenant une connection.
      */
     private Connexion() throws IOException, SQLException {

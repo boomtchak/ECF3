@@ -1,12 +1,12 @@
 package fr.cda.java.vue;
 
-import fr.cda.java.Exceptions.donneeException;
-import fr.cda.java.Logger.AppLogger;
+import fr.cda.java.gestionErreurs.Exceptions.donneeException;
+import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
-import fr.cda.java.model.liste.Clients;
-import fr.cda.java.model.liste.Prospects;
-import fr.cda.java.model.util.TypeSociete;
+import fr.cda.java.model.obsolete_liste.Clients;
+import fr.cda.java.model.obsolete_liste.Prospects;
+import fr.cda.java.utilitaire.TypeSociete;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;

@@ -1,6 +1,6 @@
 package fr.cda.java.model.gestion;
 
-import fr.cda.java.Exceptions.MandatoryDataException;
+import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
 import org.json.JSONObject;
 import org.junit.platform.commons.util.StringUtils;
 

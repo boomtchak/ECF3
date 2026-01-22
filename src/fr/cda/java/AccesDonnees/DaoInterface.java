@@ -1,7 +1,7 @@
 package fr.cda.java.AccesDonnees;
 
-import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.AccesDonnees.Services.TreatedExceptionService;
+import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import java.util.List;
 
 /**
@@ -21,7 +21,8 @@ public interface DaoInterface<T> {
      * @param entite
      * @return l'objet maj
      */
-    T create(T entite);
+    T create(T entite) throws TreatedException;
+
 
     /**
      * Récupère un objet selon son id
@@ -59,9 +60,10 @@ public interface DaoInterface<T> {
      * @param parentId
      * @return
      */
-    default List<T> getByParentId(int parentId) {
+    default List<T> getByParentId(int parentId) throws TreatedException {
         return null;
     }
 
 
+    boolean nameExist(String raisonSociale) throws TreatedException ;
 }

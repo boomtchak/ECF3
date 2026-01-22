@@ -16,6 +16,57 @@ import fr.cda.java.utilitaire.TypeErreur;
 public class TreatedException extends Throwable {
 
     private String message;
+
+    /**
+     * @return severite description
+     */
+    public Severite getSeverite() {
+        return severite;
+    }
+
+    /**
+     * @param severite description
+     */
+    public void setSeverite(Severite severite) {
+
+        this.severite = severite;
+    }
+
+    /**
+     * @return message description
+     */
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message description
+     */
+    public void setMessage(String message) {
+
+        if (message == null) {
+            message = "";
+        }
+
+        this.message = message;
+    }
+
+    /**
+     * @return typeErreur description
+     */
+    public TypeErreur getTypeErreur() {
+        return typeErreur;
+    }
+
+    /**
+     * @param typeErreur description
+     */
+    public void setTypeErreur(TypeErreur typeErreur) {
+
+        this.typeErreur = typeErreur;
+    }
+
     private Severite severite;
     TypeErreur typeErreur;
 

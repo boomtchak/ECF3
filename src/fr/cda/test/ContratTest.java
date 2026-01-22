@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class ContratTest {
 
     Adresse adresse = new Adresse(1,"4", "rue de Berne", "68000", "COLMAR");
-    Client client = new Client("ContratTest", adresse,
+    Client client = new Client(1,"ContratTest", adresse,
             "0633710842", "nordine.sefroun@laposte.net", "commentaire",
             220, 14);
     Contrat instance = new Contrat(client.getIdentifiant(), "contrat de test", 400);

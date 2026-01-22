@@ -2,11 +2,11 @@ package fr.cda.java.utilitaire;
 
 public enum Langue {
 
-    FR("dataProperties/fr.properties"),
-    US("dataProperties/us.properties");
+    FR("i18n/fr.properties"),
+    US("i18n/us.properties");
 
 
-    String url = "dataProperties/fr.properties";
+   private String url;
 
     Langue(String url) {
         this.url = url;

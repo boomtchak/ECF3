@@ -2,6 +2,7 @@ package fr.cda.java.AccesDonnees.Services;
 
 import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
+import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
 import fr.cda.java.model.gestion.Adresse;
 import fr.cda.java.model.gestion.Societe;
 import fr.cda.java.utilitaire.AppContext;
@@ -22,15 +23,42 @@ public class SocieteService {
 
     DaoInterface societeDao;
     DaoInterface adresseDao = AppContext.typeBDD.getDaoFactory().getAdresseDao();
-    DaoInterface contratDao = AppContext.typeBDD.getDaoFactory().getContratDao();
+    TreatedExceptionService gestionDesErreurs = new TreatedExceptionService();
 
     TypeSociete typeSociete;
+
+    public Societe sauvegarder(Societe societe) throws TreatedException {
+        DaoInterface daoConcurrent = null;
+        if (typeSociete == TypeSociete.CLIENT) {
+
+            daoConcurrent = AppContext.typeBDD.getDaoFactory().getProspectDao();
+
+        } else if (typeSociete == TypeSociete.PROSPECT) {
+            daoConcurrent = AppContext.typeBDD.getDaoFactory().getClientDao();
+        }
+        if (daoConcurrent.nameExist(societe.getRaisonSociale())) {
+            throw gestionDesErreurs.handleException(
+                    new UniciteException(societe.getRaisonSociale()));
+        } else {
+            if (societe.getIdentifiant() != 0) {
+                societeDao.update(societe);
+                adresseDao.update(societe.getAdresse());
+
+            } else {
+                societe.setAdresse((Adresse) adresseDao.create(societe.getAdresse()));
+                societe = (Societe) societeDao.create(societe);
+
+            }
+        }
+        return societe;
+    }
+
 
     public SocieteService(TypeSociete type) throws TreatedException {
         typeSociete = type;
 
         if (type.equals(TypeSociete.PROSPECT)) {
-            societeDao = AppContext.typeBDD.getDaoFactory().getProspectDao();
+            societeDao = AppContext.typeBDD.getDaoFactory().getClientDao();
 
         } else if (type.equals(TypeSociete.CLIENT)) {
             societeDao = AppContext.typeBDD.getDaoFactory().getProspectDao();
@@ -40,25 +68,18 @@ public class SocieteService {
 
     public Societe instancierSociete(int id) throws TreatedException {
         Societe societe = (Societe) societeDao.getById(id);
-        societe.setAdresse((Adresse) adresseDao.getByParentId(societe.getIdentifiant()));
+        societe.setAdresse((Adresse) adresseDao.getById(societe.getIdAdresse()));
         return societe;
     }
 
     public List<Societe> instancierListeSociete() throws TreatedException {
 
         List<Societe> liste = societeDao.findAll();
-        liste.forEach(s -> {
+        for (Societe s : liste) {
             // On récupère les adresses via le parentId (id de la société)
-            s.setAdresse((Adresse) adresseDao.getByParentId(s.getIdentifiant()));
-
-            // Si c'est un Client, on récupère aussi les contrats
-            // je garde ce code pour ma biblio perso, mais en fait
-            // je vais charger les contrats a l'ouverture de l'écran...
-        /*    if (s instanceof Client client) {
-                client.setListeContrats(
-                        (Map<Integer, Contrat>) contratDao.getByParentId(s.getIdentifiant()));
-            } */
-        });
+            s.setAdresse((Adresse)
+                    adresseDao.getById(s.getIdAdresse()));
+        }
         return liste;
     }
 

@@ -41,7 +41,7 @@ public class Regex {
      * je cherche sur le net les regex. Pour MySQL : on capture ce qui est après le point dans les
      * guillemets de la clé
      */
-    public static final String MYSQL_FIELD_EXTRACTOR = "for key '.*\\.(.*)'";
+    public static final String MYSQL_FIELD_EXTRACTOR = "'([^']*)'";
 
     /**
      * je cherche sur le net les regex. Pour MongoDB : on capture le nom de l'index avant le suffixe

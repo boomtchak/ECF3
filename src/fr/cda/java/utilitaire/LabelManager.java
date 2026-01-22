@@ -21,7 +21,7 @@ public class LabelManager {
 
     // L'instance unique des propriétés
     private static final Properties properties = new Properties();
-    private static String propertiesUrl = AppContext.langue.url;
+    private static String propertiesUrl = AppContext.langue.getUrl();
 
     static {
         chargerLesDonnees();
@@ -60,7 +60,7 @@ public class LabelManager {
     public static void changerLangue(Langue langue) {
        AppContext.langue = langue;
 
-        propertiesUrl = langue.url;
+        propertiesUrl = langue.getUrl();
         chargerLesDonnees();
 
     }

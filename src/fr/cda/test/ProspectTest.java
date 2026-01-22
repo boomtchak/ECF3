@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class ProspectTest {
 
     Adresse adresse = new Adresse(1, "4", "rue de Berne", "68000", "COLMAR");
-    Prospect instance = new Prospect("ProspectTest", adresse,
+    Prospect instance = new Prospect(1, "ProspectTest", adresse,
             "0633710842", "nordine.sefroun@laposte.net", "commentaire", LocalDate.now(),
             Interet.OUI);
 

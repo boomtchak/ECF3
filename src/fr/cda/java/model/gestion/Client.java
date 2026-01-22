@@ -7,7 +7,6 @@ import fr.cda.java.model.obsolete_liste.Clients;
 import fr.cda.java.model.obsolete_liste.Prospects;
 import java.util.HashMap;
 import java.util.Map;
-import org.json.JSONObject;
 
 /**
  * Client
@@ -25,7 +24,8 @@ public class Client extends Societe {
     Map<Integer, Contrat> listeContrats = new HashMap<>();
 
     /**
-     * Construit un client à partir de l'integralité de ses données.
+     * Construit un client à partir de la vue.
+     *
      * @param raisonSociale
      * @param adresse
      * @param telephone
@@ -34,10 +34,30 @@ public class Client extends Societe {
      * @param chiffreAffaire
      * @param nombreEmployes
      */
-    public Client(String raisonSociale, Adresse adresse, String telephone, String adresseMail,
+    public Client(int identifiant, String raisonSociale, Adresse adresse, String telephone,
+            String adresseMail,
             String commentaire, long chiffreAffaire, int nombreEmployes) {
 
+        // l'id n'existe que quand il revient de la base
+        this(identifiant, raisonSociale, telephone, adresseMail, commentaire, chiffreAffaire,
+                nombreEmployes);
         this.setAdresse(adresse);
+    }
+
+    /**
+     * Construit venant de la base de donnée.
+     *
+     * @param raisonSociale
+     * @param telephone
+     * @param adresseMail
+     * @param commentaire
+     * @param chiffreAffaire
+     * @param nombreEmployes
+     */
+    public Client(int identifiant, String raisonSociale, String telephone, String adresseMail,
+            String commentaire, long chiffreAffaire, int nombreEmployes) {
+
+        this.setIdentifiant(identifiant);
         this.setTelephone(telephone);
         this.setAdresseMail(adresseMail);
         this.setCommentaire(commentaire);
@@ -47,12 +67,12 @@ public class Client extends Societe {
     }
 
 
-    /**
+    /*  /**
      * C'est plus safe pour anticiper les données corrompues en json de passer par ici et utiliser
      * les setter.
      *
      * @param json
-     */
+     *//*
     public Client(JSONObject json) {
 
         this(json.getString("raisonSociale"),
@@ -63,18 +83,19 @@ public class Client extends Societe {
                 json.getLong("chiffreAffaire"),
                 json.getInt("nombreEmployes"));
     }
+    */
 
     /**
      * @return listeContrats description
      */
-    public  Map<Integer, Contrat> getListeContrats() {
+    public Map<Integer, Contrat> getListeContrats() {
         return listeContrats;
     }
 
     /**
      * @param listeContrats description
      */
-    public void setListeContrats( Map<Integer, Contrat> listeContrats) {
+    public void setListeContrats(Map<Integer, Contrat> listeContrats) {
 
         this.listeContrats = listeContrats;
     }
@@ -116,15 +137,6 @@ public class Client extends Societe {
 
     @Override
     public void setRaisonSociale(String raisonSociale) {
-        /**
-         * si la raison sociale existe déjà, on s'assure qu'il s'agit pas de l'objet en cours de traitement
-         */
-        if (Prospects.getInstance().getListeSocietes().containsKey(raisonSociale)
-                || (Clients.getInstance().getListeSocietes().containsKey(raisonSociale)
-                && Clients.getInstance().getListeSocietes().get(raisonSociale).getIdentifiant()
-                != this.getIdentifiant())) {
-            throw new UniciteException(raisonSociale);
-        }
         super.setRaisonSociale(raisonSociale);
     }
 

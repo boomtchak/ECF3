@@ -1,6 +1,5 @@
 package fr.cda.java.vue;
 
-import fr.cda.java.AccesDonnees.dao.JsonDao_Obsolete;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.model.gestion.Societe;
@@ -11,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -50,8 +48,6 @@ public class Acceuil extends JDialog {
     /**
      * permet de sauvegarder charger
      */
-    private static JsonDao_Obsolete dao = new JsonDao_Obsolete();
-
     public Acceuil() {
 
         this.setTitle("Menu principal");
@@ -109,12 +105,6 @@ public class Acceuil extends JDialog {
         quitterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // add your code here if necessary
-                try{
-                    JsonDao_Obsolete.sauvegarder();
-                }catch (IOException exception){
-                    System.out.println("erreur sauvegarde");
-                }
                 System.exit(0);
             }
         });
@@ -131,7 +121,8 @@ public class Acceuil extends JDialog {
         afficherLesContratsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GestionContrats gestionContrats = new GestionContrats((Client) selectedSociete, TypeAction.AFFICHER);
+                GestionContrats gestionContrats = new GestionContrats((Client) selectedSociete,
+                        TypeAction.AFFICHER);
                 gestionContrats.pack();
                 gestionContrats.setVisible(true);
             }
@@ -174,14 +165,13 @@ public class Acceuil extends JDialog {
     }
 
 
-
     private void activerBoutonAction() {
 
         boolean estActif = (null != selectionSociete.getSelectedItem()
                 && selectionSociete.getSelectedIndex() != -1);
         // Boucle sur tous les composants DANS le panneau
         for (Component comp : paneauActionsOnSelection.getComponents()) {
-                comp.setEnabled(estActif);
+            comp.setEnabled(estActif);
         }
 
 

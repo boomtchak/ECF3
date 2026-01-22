@@ -17,7 +17,7 @@ import org.junit.platform.commons.util.StringUtils;
  */
 public class Adresse {
 
-    private static int identifiant;
+    private static Integer identifiant;
     private String numeroDeRue;
     private String nomDeRue;
     private String codePostal;

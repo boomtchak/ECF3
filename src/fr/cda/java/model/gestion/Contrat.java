@@ -15,7 +15,7 @@ import org.junit.platform.commons.util.StringUtils;
  */
 public class Contrat {
 
-    public static int compteurIdentifiant = 1;
+    public static Integer compteurIdentifiant = 1;
     private int identifiant;
     private int identifiantClient;
     private String nomContrat;

@@ -1,6 +1,7 @@
 package fr.cda.java.AccesDonnees.daoImplementation.mongo;
 
 import fr.cda.java.AccesDonnees.DaoInterface;
+import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import java.util.List;
 
 /**
@@ -37,5 +38,11 @@ public class MongoProspectDao implements DaoInterface {
     @Override
     public List findAll() {
         return List.of();
+    }
+
+
+    @Override
+    public boolean nameExist(String raisonSociale) throws TreatedException {
+        return false;
     }
 }

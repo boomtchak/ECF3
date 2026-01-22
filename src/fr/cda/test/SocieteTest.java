@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class SocieteTest {
 
     Adresse adresse = new Adresse(1, "4", "rue de Berne", "68000", "COLMAR");
-    Client instance = new Client( "raisonSociale", adresse,
+    Client instance = new Client( 1,"raisonSociale", adresse,
             "0633710842", "nordine.sefroun@laposte.net", "commentaire",
             10000, 250);
 
@@ -41,7 +41,7 @@ class SocieteTest {
     @ValueSource(strings = {"testOk"})
     void setRaisonSocialeOk(String input) {
         Adresse adresse = new Adresse(1, "4", "rue de Berne", "68000", "COLMAR");
-        Client instanceClient = new Client("raison Sociale", adresse,
+        Client instanceClient = new Client(1,"raison Sociale", adresse,
                 "0633710842", "nordine.sefroun@laposte.net", "commentaire",
                 220, 14);
 
@@ -119,16 +119,16 @@ class SocieteTest {
     @DisplayName("❌ Test d'échec pour setRaisonSociale")
     void setRaisonSocialeKo() {
 
-        Client client1 = new Client("raisonSociale", adresse,
+        Client client1 = new Client(1,"raisonSociale", adresse,
                 "0633710842", "nordine.sefroun@laposte.net", "commentaire",
                 220, 14);
-        Client client2 = new Client("raisonSociale2", adresse,
+        Client client2 = new Client(1,"raisonSociale2", adresse,
                 "0633710842", "nordine.sefroun@laposte.net", "commentaire",
                 220, 14);
-        Prospect prospect1 = new Prospect("raisonSociale3", adresse,
+        Prospect prospect1 = new Prospect(1,"raisonSociale3", adresse,
                 "0633710842", "nordine.sefroun@laposte.net", "commentaire", LocalDate.now(),
                 Interet.OUI);
-        Prospect prospect2 = new Prospect("raisonSociale4", adresse,
+        Prospect prospect2 = new Prospect(2, "raisonSociale4", adresse,
                 "0633710842", "nordine.sefroun@laposte.net", "commentaire", LocalDate.now(),
                 Interet.OUI);
 

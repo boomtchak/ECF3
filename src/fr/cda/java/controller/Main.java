@@ -1,4 +1,3 @@
-import fr.cda.java.AccesDonnees.dao.JsonDao_Obsolete;
 import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.vue.Acceuil;
 import java.awt.Color;
@@ -24,7 +23,7 @@ void main() {
         FileInputStream input = new FileInputStream(fichier);
         Properties dataProperties = new Properties();
         dataProperties.load(input);
-        JsonDao_Obsolete.charger();
+        //JsonDao_Obsolete.charger();
 
     } catch (IOException e) {
         AppLogger.LOGGER.severe("Le chargement a rencontré un problème IO voir les droits");
@@ -57,16 +56,5 @@ void main() {
         JOptionPane.showMessageDialog(dialog,
                 "l'application' a rencontré problème en cours de résolution. Merci de votre compréhension.");
 
-    } finally {
-        try {
-            //quoi qu'il arrive on tente la save.
-            JsonDao_Obsolete.sauvegarder();
-
-        } catch (IOException e) {
-            // si il y a un plantage ici, on sait que la sauvegarde est en cause.
-            AppLogger.LOGGER.severe("la sauvegarde a rencontré un problème non anticipé");
-            JOptionPane.showMessageDialog(dialog,
-                    "la sauvegarde a rencontré suite à un problème en cours de résolution. Merci de votre compréhension.");
-        }
     }
 }

@@ -18,12 +18,23 @@ import org.json.JSONObject;
  * @since 05/11/2025
  */
 public class Prospect extends Societe {
+
     private LocalDate dateProspection;
     private Interet interet;
 
-    public Prospect(String raisonSociale, Adresse adresse, String telephone,
+
+    public Prospect(int identifiant, String raisonSociale, Adresse adresse, String telephone,
             String adresseMail, String commentaire, LocalDate dateProspection, Interet interet) {
+
+        // l'id n'existe que quand il revient de la base
+        this(identifiant, raisonSociale, telephone, adresseMail, commentaire, dateProspection,
+                interet);
         this.setAdresse(adresse);
+    }
+
+    public Prospect(int identifiant, String raisonSociale, String telephone,
+            String adresseMail, String commentaire, LocalDate dateProspection, Interet interet) {
+        this.setIdentifiant(identifiant);
         this.setTelephone(telephone);
         this.setAdresseMail(adresseMail);
         this.setCommentaire(commentaire);
@@ -31,11 +42,11 @@ public class Prospect extends Societe {
         this.setInteret(interet);
         this.setRaisonSociale(raisonSociale);
     }
-
+/* obsolete , conservé pour un bouton back up dans une v3.
     public Prospect(JSONObject json) {
         String dateStr = json.getString("dateProspection");
         LocalDate date = LocalDate.parse(dateStr); // format ISO yyyy-MM-dd
-        this(json.getString("raisonSociale"),
+        this(json.getInt().getString("raisonSociale"),
                 new Adresse(json.getJSONObject("adresse")),
                 json.getString("telephone"),
                 json.getString("adresseMail"),
@@ -43,7 +54,7 @@ public class Prospect extends Societe {
                 date,
                 Interet.valueOf(json.getString("interet")));
 
-    }
+    } */
 
     /**
      * @return dateProspection description
@@ -56,8 +67,8 @@ public class Prospect extends Societe {
      * @param dateProspection description
      */
     public void setDateProspection(LocalDate dateProspection) {
-        if(dateProspection == null){
-            throw  new MandatoryDataException("date de prospection");
+        if (dateProspection == null) {
+            throw new MandatoryDataException("date de prospection");
         }
         this.dateProspection = dateProspection;
     }
@@ -83,15 +94,6 @@ public class Prospect extends Societe {
 
     @Override
     public void setRaisonSociale(String raisonSociale) {
-        /**
-         * si la raison sociale existe déjà, on s'assure qu'il s'agit pas de l'objet en cours de traitement
-         */
-        if (Clients.getInstance().getListeSocietes().containsKey(raisonSociale)
-                || (Prospects.getInstance().getListeSocietes().containsKey(raisonSociale)
-                && Prospects.getInstance().getListeSocietes().get(raisonSociale).getIdentifiant()
-                != this.getIdentifiant())) {
-            throw new UniciteException(raisonSociale);
-        }
         super.setRaisonSociale(raisonSociale);
     }
 }

@@ -1,6 +1,7 @@
 package fr.cda.java.AccesDonnees.Services;
 
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
+import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
 import fr.cda.java.utilitaire.LabelManager;
 import fr.cda.java.utilitaire.Regex;
 import fr.cda.java.utilitaire.Severite;
@@ -51,29 +52,34 @@ public class TreatedExceptionService {
                                 Severite.FAIBLE,
                                 TypeErreur.DB_MODEL);
                         break;
+                    case 1064:
+                        retour = new TreatedException(LabelManager.get("syntaxe"),
+                                Severite.ELEVEE,
+                                TypeErreur.DB_TECH);
+                        break;
                     case 1406:
                         retour = new TreatedException(LabelManager.get("longueur", field),
                                 Severite.FAIBLE,
                                 TypeErreur.DB_MODEL);
                         break;
                     case 1451:
-                        retour = new TreatedException(LabelManager.get("IntegriteContrat"),
+                        retour = new TreatedException(LabelManager.get("integriteContrat"),
                                 Severite.FAIBLE,
                                 TypeErreur.DB_MODEL);
                         break;
                     case 1264:
-                        retour = new TreatedException(LabelManager.get("ValeurNonAutorisee", field),
+                        retour = new TreatedException(LabelManager.get("valeurNonAutorisee", field),
                                 Severite.FAIBLE,
                                 TypeErreur.DB_MODEL);
                         break;
                     case 1048:
                         retour = new TreatedException(LabelManager.get("champsObligatoire", field),
-                                Severite.FAIBLE,
+                                Severite.MOYENNE,
                                 TypeErreur.DB_MODEL);
                         break;
                     default:
-                        retour = new TreatedException(LabelManager.get("inconnu"),
-                                Severite.FAIBLE,
+                        retour = new TreatedException(LabelManager.get("inconnue"),
+                                Severite.ELEVEE,
                                 TypeErreur.DB_MODEL);
                         break;
                 }
@@ -88,7 +94,7 @@ public class TreatedExceptionService {
 
                         if (ex.getMessage().contains("comparison failed")) {
                             retour = new TreatedException(
-                                    LabelManager.get("ValeurNonAutorisee", field),
+                                    LabelManager.get("valeurNonAutorisee", field),
                                     Severite.FAIBLE,
                                     TypeErreur.DB_MODEL);
                         } else if (ex.getMessage().contains("maxLength failed")) {
@@ -104,7 +110,7 @@ public class TreatedExceptionService {
                         break;
                     default:
                         retour = new TreatedException(LabelManager.get("inconnu"),
-                                Severite.FAIBLE,
+                                Severite.ELEVEE,
                                 TypeErreur.DB_MODEL);
                 }
 
@@ -131,13 +137,18 @@ public class TreatedExceptionService {
             }
             case IOException s -> {
                 return new TreatedException(
-                        LabelManager.get(""),
+                        LabelManager.get("fichier"),
                         Severite.ELEVEE, TypeErreur.APP_TECH);
             }
             case ReflectiveOperationException s -> {
                 return new TreatedException(
                         LabelManager.get("erreurInterne"),
                         Severite.ELEVEE, TypeErreur.APP_TECH);
+            }
+            case UniciteException s ->{
+                return new TreatedException(
+                        LabelManager.get("unicite"),
+                        Severite.MOYENNE, TypeErreur.DB_MODEL);
             }
             default -> {
                 return new TreatedException(LabelManager.get("inconnue"), Severite.ELEVEE,

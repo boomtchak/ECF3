@@ -1,8 +1,8 @@
 package fr.cda.java.AccesDonnees;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ import java.util.Properties;
  * @version 1.0
  * @since 15/01/2026
  */
-public class Connexion{
+public class Connexion {
 
     private static Connexion instance;
 
@@ -30,7 +30,8 @@ public class Connexion{
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                if (instance != null && instance.connection != null && !instance.connection.isClosed()) {
+                if (instance != null && instance.connection != null
+                        && !instance.connection.isClosed()) {
                     instance.connection.close();
                     // On utilise System.out car le Logger peut déjà être éteint par la JVM à ce stade
                     System.out.println("[INFO] Database fermée proprement par le Shutdown Hook.");
@@ -43,35 +44,34 @@ public class Connexion{
 
 
     /**
-     * constructeur privé, tout ce qu'on peut appeler, c'est getConnexion. il possede une seule instance, contenant une connection.
+     * constructeur privé, tout ce qu'on peut appeler, c'est getConnexion. il possede une seule
+     * instance, contenant une connection.
      */
     private Connexion() throws IOException, SQLException {
 
         // on lit les valeurs du fichier, pas à pas, le but c'est de bien comprendre
         // copier coller du cours
-        Properties dataProperties =  getDatabaseProperties();
-        String url =  dataProperties.getProperty("url");
-        String login =           dataProperties.getProperty("login");
-        String password =         dataProperties.getProperty("password");
+        Properties dataProperties = getDatabaseProperties();
+        String url = dataProperties.getProperty("url");
+        String login = dataProperties.getProperty("login");
+        String password = dataProperties.getProperty("password");
 
-
-       // ici on crée l'object instance
+        // ici on crée l'object instance
         connection = DriverManager.getConnection(url, login, password);
 
     }
 
     /**
-     *  Si on a déjà instancié connexion
-     *  connection existe et vaut quelque chose,
-     * on renvoie la connection, sinon il va d'abord la crée en passant par le constructeur.
+     * Si on a déjà instancié connexion connection existe et vaut quelque chose, on renvoie la
+     * connection, sinon il va d'abord la crée en passant par le constructeur.
      */
-    public static Connection getConnection() throws SQLException,IOException  {
+    public static Connection getConnection() throws SQLException, IOException {
 
-    if (instance == null ||  instance.connection == null ||  instance.connection.isClosed()) {
-        instance = new Connexion();
-    }
+        if (instance == null || instance.connection == null || instance.connection.isClosed()) {
+            instance = new Connexion();
+        }
         return instance.connection;
-}
+    }
 
     /**
      * // on lit les valeurs du fichier, pas à pas, le but c'est de bien comprendre
@@ -79,12 +79,12 @@ public class Connexion{
      * @return l'url attendue par le DriverManager
      */
     private Properties getDatabaseProperties() throws IOException {
-        File fichier = new File("dataProperties/database.properties");
-        FileInputStream input = new FileInputStream(fichier);
+        InputStream input = getClass().getClassLoader()
+                .getResourceAsStream("dataProperties/database.properties");
         Properties dataProperties = new Properties();
         dataProperties.load(input);
         return dataProperties;
-}
+    }
 
 
 }

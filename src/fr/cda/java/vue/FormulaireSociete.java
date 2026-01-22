@@ -7,7 +7,6 @@ import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.model.gestion.Societe;
-import fr.cda.java.model.gestion.Adresse;
 import fr.cda.java.utilitaire.Interet;
 import fr.cda.java.utilitaire.TypeAction;
 import fr.cda.java.utilitaire.TypeSociete;
@@ -137,7 +136,7 @@ public class FormulaireSociete extends JDialog {
 
         try {
             if (typeSociete.equals(TypeSociete.PROSPECT)) {
-                Prospect prospect = (Prospect)getSociete();
+                Prospect prospect = (Prospect) getSociete();
                 if (typeAction.equals(TypeAction.UPDATE)) {
                     prospect.setIdentifiant(getSociete().getIdentifiant());
                     typeSociete.getListe().replace(societe.getRaisonSociale(), prospect);
@@ -146,10 +145,11 @@ public class FormulaireSociete extends JDialog {
                 }
             } else {
                 // inspiré de la factory.
-                Client client = (Client)getSociete();
+                Client client = (Client) getSociete();
                 Client clientTmp = (Client) societe;
-                if(null != clientTmp.getListeContrats())
-                client.setListeContrats(clientTmp.getListeContrats());
+                if (null != clientTmp.getListeContrats()) {
+                    client.setListeContrats(clientTmp.getListeContrats());
+                }
                 // les listes gerent toutes seul l'auto incrément uniquement en create.
                 if (typeAction.equals(TypeAction.UPDATE)) {
                     client.setIdentifiant(societe.getIdentifiant());
@@ -256,9 +256,9 @@ public class FormulaireSociete extends JDialog {
      * @throws UniciteException
      */
     private Societe getSociete() throws MandatoryDataException, RegexException, UniciteException {
-        Adresse adresse = new Adresse(1,numRueTextField.getText(), nomRueTextField.getText(),
-                cpTextField.getText(), villeTextField.getText());
         Societe retour = null;
+       /* TODO Adresse adresse = new Adresse(1,numRueTextField.getText(), nomRueTextField.getText(),
+                cpTextField.getText(), villeTextField.getText());
         if (typeSociete.equals(TypeSociete.CLIENT)){
 
         retour = new Client(raisonSocialeTextField.getText(), adresse, telTextField.getText(), mailTextField.getText(),
@@ -269,7 +269,8 @@ public class FormulaireSociete extends JDialog {
                     comTextField.getText(), (LocalDate) validerReglesAffichage("dateProspect"),
                     (Interet) interetCombo.getSelectedItem());
         }
-            return retour;
+            */
+        return retour;
     }
 
     /**

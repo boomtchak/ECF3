@@ -18,12 +18,30 @@ import org.junit.platform.commons.util.StringUtils;
 public abstract class Societe {
 
 
-    private int identifiant;
+    private Integer identifiant;
     private String raisonSociale;
     private Adresse adresse;
     private String telephone;
     private String adresseMail;
     private String commentaire;
+
+    /**
+     * @return idAdresse description
+     */
+    public int getIdAdresse() {
+        return idAdresse;
+    }
+
+    /**
+     * @param idAdresse description
+     */
+    public void setIdAdresse(int idAdresse) {
+
+        this.idAdresse = idAdresse;
+    }
+
+    // on arrive au moment ou il faudrait des dto d'affichage et des daoObjects pour les dao avec des converters...
+    private int idAdresse;
 
 
     /**

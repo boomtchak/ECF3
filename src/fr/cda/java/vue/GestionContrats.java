@@ -1,14 +1,17 @@
 package fr.cda.java.vue;
 
+import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
 import fr.cda.java.gestionErreurs.Exceptions.RegexException;
-import fr.cda.java.model.gestion.Client;
+import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.model.gestion.Contrat;
+import fr.cda.java.utilitaire.AppContext;
 import fr.cda.java.utilitaire.TypeAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -41,14 +44,32 @@ public class GestionContrats extends JDialog {
     private JButton buttonCancel;
     private JButton sauvegarderButton;
     private JLabel erreurLabel;
-    private Client client;
+    private int clientId;
     private Contrat selectedContrat;
     private boolean isAffichage = true;
     private TypeAction typeAction;
+    private String nomClient;
+    private Map<Integer, Contrat> mapContrats;
+    DaoInterface dao;
 
-    public GestionContrats(Client client, TypeAction typeAction) {
+    public GestionContrats(int clientId, String nomClient, TypeAction typeAction) {
 
-        this.client = client;
+        // en general je préfère trimballer un petit bout d'un ecran a l'autre que tout l'objet.
+        this.clientId = clientId;
+        this.nomClient = nomClient;
+
+        try {
+            this.dao = AppContext.typeBDD.getDaoFactory().getContratDao();
+        } catch (TreatedException e) {
+            afficherErreur(e.getMessage());
+        }
+
+        List<Contrat> liste = new ArrayList<>();
+        for (Contrat contrat : liste) {
+            mapContrats.put(contrat.getIdentifiant(), contrat);
+
+        }
+
         isAffichage = typeAction.equals(TypeAction.AFFICHER);
         this.setTitle("Gestion des contrats");
         //blocFormulaire.setVisible(!isAffichage);
@@ -145,13 +166,16 @@ public class GestionContrats extends JDialog {
                         selectedContrat.setNomContrat(nomCtTextField.getText());
                         selectedContrat.setMontantContrat(
                                 Double.valueOf(montantCtTextField.getText()));
-                        client.getListeContrats()
-                                .put(selectedContrat.getIdentifiant(), selectedContrat);
+                        if (selectedContrat.getIdentifiant() != 0) {
+                            dao.update(selectedContrat);
+                        }
+                        mapContrats.replace(selectedContrat.getIdentifiant(), selectedContrat);
                     } else {
-                        Contrat contrat = new Contrat(client.getIdentifiant(),
+                        Contrat contrat = new Contrat(clientId,
                                 nomCtTextField.getText(),
                                 Double.valueOf(montantCtTextField.getText()));
-                        client.getListeContrats().put(contrat.getIdentifiant(), contrat);
+                        dao.create(selectedContrat);
+                        mapContrats.put(selectedContrat.getIdentifiant(), selectedContrat);
 
                     }
                     remplissageJTable();
@@ -163,13 +187,20 @@ public class GestionContrats extends JDialog {
                     afficherErreur(ex.getMessage());
                 } catch (RegexException ex) {
                     afficherErreur(ex.getMessage());
+                } catch (TreatedException ex) {
+                    afficherErreur(ex.getMessage());
                 }
             }
         });
         supprimerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                client.getListeContrats().remove(selectedContrat.getIdentifiant());
+                try {
+                    dao.delete(selectedContrat.getIdentifiant());
+                } catch (TreatedException ex) {
+                    afficherErreur(ex.getMessage());
+                }
+                mapContrats.remove(selectedContrat.getIdentifiant());
                 selectedContrat = null;
                 enableButtons(false);
                 remplissageJTable();
@@ -191,7 +222,7 @@ public class GestionContrats extends JDialog {
                         // On récupère l'ID caché en colonne 0 pour retrouver l'objet dans la liste
                         int indexInList = (int) tableauContrats.getModel().getValueAt(modelRow, 0);
 
-                        selectedContrat = client.getListeContrats().get(indexInList);
+                        selectedContrat = mapContrats.get(indexInList);
                         supprimerButton.setEnabled(!isAffichage);
                         modifierButton.setEnabled(!isAffichage);
                         afficherButton.setEnabled(true);
@@ -231,7 +262,7 @@ public class GestionContrats extends JDialog {
 
     private Contrat getSelectedContrat() {
         int viewRow = tableauContrats.getSelectedRow();
-        Contrat contrat = client.getListeContrats().get(viewRow);
+        Contrat contrat = mapContrats.get(viewRow);
         return contrat;
     }
 
@@ -248,10 +279,10 @@ public class GestionContrats extends JDialog {
         modelTable = new DefaultTableModel(new Object[][]{}, entetes.toArray());
 
         // 4. Parcourir la liste de clients et ajouter chaque ligne
-        for (Contrat contrat : client.getListeContrats().values()) {
+        for (Contrat contrat : mapContrats.values()) {
             Object[] dataRow = new Object[]{
                     contrat.getIdentifiant(),
-                    client.getRaisonSociale(),
+                    nomClient,
                     contrat.getNomContrat(),
                     contrat.getMontantContrat()
             };
@@ -277,13 +308,13 @@ public class GestionContrats extends JDialog {
 
         if (selectedContrat != null) {
             idTextField.setText(String.valueOf(selectedContrat.getIdentifiant()));
-            raisonSocialeTextField.setText(client.getRaisonSociale());
+            raisonSocialeTextField.setText(nomClient);
             nomCtTextField.setText(selectedContrat.getNomContrat());
             montantCtTextField.setText(
                     String.valueOf(selectedContrat.getMontantContrat()));
         }
         if (!isAffichage) {
-            idTextField.setText(String.valueOf(Contrat.compteurIdentifiant));
+            idTextField.setText(String.valueOf(selectedContrat.getIdentifiant()));
         }
     }
 

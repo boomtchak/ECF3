@@ -4,6 +4,7 @@ import fr.cda.java.AccesDonnees.Connexion;
 import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.gestionErreurs.Exceptions.NotFoundException;
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
+import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.model.gestion.Adresse;
 import fr.cda.java.utilitaire.LabelManager;
 import fr.cda.java.utilitaire.TypeBDD;
@@ -47,6 +48,8 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
             }
         } catch (SQLException e) {
             throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+            if(AppLogger)
+
         } catch (FileNotFoundException e) {
             throw gestionDesErreurs.handleException(e);
         } catch (IOException e) {

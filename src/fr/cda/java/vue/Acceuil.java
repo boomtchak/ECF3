@@ -1,8 +1,12 @@
 package fr.cda.java.vue;
 
+import fr.cda.java.AccesDonnees.Services.SocieteService;
+import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.model.gestion.Societe;
+import fr.cda.java.utilitaire.AppContext;
+import fr.cda.java.utilitaire.Severite;
 import fr.cda.java.utilitaire.TypeAction;
 import fr.cda.java.utilitaire.TypeSociete;
 import java.awt.Component;
@@ -10,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -37,6 +42,8 @@ public class Acceuil extends JDialog {
     private TypeSociete typeSociete
             = null;
     private Societe selectedSociete;
+    SocieteService service;
+    List<Societe> listeSociete;
 
     /**
      * @return paneauSociete description
@@ -57,7 +64,7 @@ public class Acceuil extends JDialog {
         afficherToutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListeSocietes formulaireSociete = new ListeSocietes(typeSociete);
+                ListeSocietes formulaireSociete = new ListeSocietes(typeSociete, listeSociete);
                 formulaireSociete.pack();
                 formulaireSociete.setVisible(true);
             }
@@ -70,7 +77,11 @@ public class Acceuil extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 typeSociete = TypeSociete.CLIENT;
                 choixTypeSociete();
-
+                try {
+                    listeSociete = service.getListeSociete();
+                } catch (TreatedException ex) {
+                    afficherErreurFatale(ex);
+                }
 
             }
         });
@@ -83,7 +94,13 @@ public class Acceuil extends JDialog {
             public void actionPerformed(ActionEvent e) {
 
                 typeSociete = TypeSociete.PROSPECT;
+
                 choixTypeSociete();
+                try {
+                    listeSociete = service.getListeSociete();
+                } catch (TreatedException ex) {
+                    afficherErreurFatale(ex);
+                }
             }
         });
         selectionSociete.addItemListener(new ItemListener() {
@@ -121,7 +138,8 @@ public class Acceuil extends JDialog {
         afficherLesContratsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GestionContrats gestionContrats = new GestionContrats((Client) selectedSociete,
+                GestionContrats gestionContrats = new GestionContrats(
+                        selectedSociete.getIdentifiant(), selectedSociete.getRaisonSociale(),
                         TypeAction.AFFICHER);
                 gestionContrats.pack();
                 gestionContrats.setVisible(true);
@@ -157,7 +175,24 @@ public class Acceuil extends JDialog {
                                 selectedSociete.getRaisonSociale()).toString(),
                         JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (reponse == JOptionPane.YES_OPTION) {
-                    typeSociete.getListe().supprimer(selectedSociete.getRaisonSociale());
+                    if (typeSociete.equals(TypeSociete.PROSPECT)) {
+
+                        try {
+                            AppContext.typeBDD.getDaoFactory().getProspectDao()
+                                    .delete(selectedSociete.getIdentifiant());
+                        } catch (TreatedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    } else if (typeSociete.equals(TypeSociete.CLIENT)) {
+
+                        try {
+                            AppContext.typeBDD.getDaoFactory().getClientDao()
+                                    .delete(selectedSociete.getIdentifiant());
+                        } catch (TreatedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                    listeSociete.remove(selectedSociete);
                     majListeDeroulante();
                 }
             }
@@ -184,6 +219,11 @@ public class Acceuil extends JDialog {
      */
     private void choixTypeSociete() {
 
+        try {
+            service = new SocieteService(typeSociete);
+        } catch (TreatedException ex) {
+            throw new RuntimeException(ex);
+        }
         description.setText(
                 new StringBuilder("Gestion des ").append(typeSociete.getAffichage()).toString());
         paneauSociete.setVisible(true);
@@ -199,16 +239,61 @@ public class Acceuil extends JDialog {
     private void majListeDeroulante() {
         selectionSociete.removeAllItems();
 
-        if (typeSociete.getListe().getListeSocietes().isEmpty()) {
+        if (listeSociete.isEmpty()) {
             selectionSociete.setEnabled(false);
         } else {
             selectionSociete.setEnabled(true);
-            for (Object societe : typeSociete.getListe().getListeSocietes().values()) {
+            for (Object societe : listeSociete) {
                 selectionSociete.addItem(societe);
 
             }
             // -1 signifie "aucune sélection"
             selectionSociete.setSelectedIndex(-1);
+        }
+    }
+
+    /**
+     * Modal de fermeture forcée. PAs le choix, si on a pas l'acces au donnée, aucune fonctionalité
+     * n'existe.
+     */
+    private static void afficherErreurFatale(TreatedException ex) {
+
+        JOptionPane.showMessageDialog(null,
+                ex.getMessage(),
+                "Erreur Fatale",
+                JOptionPane.ERROR_MESSAGE);
+
+        // Sortie du système avec code d'erreur 1
+        System.exit(1);
+    }
+
+    /**
+     * Peut être amélioré. En tout cas dans l'acceuil, les erreurs doivent être bien vue et validées
+     * par l'user.
+     *
+     * @param ex L'exception capturée depuis le service.
+     */
+    public static void afficherErreur(TreatedException ex) {
+
+        if (ex.getSeverite() == Severite.URGENT) {
+            afficherErreurFatale(ex);
+        } else {
+            // On définit le titre et l'icône selon la sévérité
+            String titre = "Alerte Système";
+            int icone = JOptionPane.INFORMATION_MESSAGE;
+
+            if (ex.getSeverite() == Severite.MOYENNE) {
+                titre = "Attention - Avertissement";
+                icone = JOptionPane.WARNING_MESSAGE;
+            }
+
+            // showMessageDialog est bloquant : l'utilisateur DOIT cliquer sur OK
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    titre,
+                    icone
+            );
         }
     }
 }

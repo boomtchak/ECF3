@@ -1,12 +1,8 @@
 package fr.cda.java.model.gestion;
 
 import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
-import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
-import fr.cda.java.model.obsolete_liste.Clients;
-import fr.cda.java.model.obsolete_liste.Prospects;
 import fr.cda.java.utilitaire.Interet;
 import java.time.LocalDate;
-import org.json.JSONObject;
 
 /**
  * Prospect

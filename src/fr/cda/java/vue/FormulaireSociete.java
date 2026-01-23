@@ -1,8 +1,10 @@
 package fr.cda.java.vue;
 
+import fr.cda.java.AccesDonnees.Services.SocieteService;
 import fr.cda.java.gestionErreurs.Exceptions.AffichageException;
 import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
 import fr.cda.java.gestionErreurs.Exceptions.RegexException;
+import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -50,16 +53,22 @@ public class FormulaireSociete extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     ArrayList<JComponent> listeChampsFormulaire = new ArrayList<JComponent>();
-
+    SocieteService service;
     TypeSociete typeSociete;
     TypeAction typeAction;
     Societe societe;
+    List<Societe> listeSociete;
 
     public FormulaireSociete(TypeSociete typeSociete, TypeAction typeAction) {
         this(typeSociete, typeAction, null);
     }
 
     public FormulaireSociete(TypeSociete typeSociete, TypeAction typeAction, Societe client) {
+        try {
+            this.service = new SocieteService(typeSociete);
+        } catch (TreatedException e) {
+            afficherErreur(e.getMessage());
+        }
         this.typeSociete = typeSociete;
         this.typeAction = typeAction;
         this.societe = client;
@@ -78,7 +87,6 @@ public class FormulaireSociete extends JDialog {
             bindingSetters();
         } else {
             interetCombo.setSelectedItem(Interet.INCONNU);
-            idTextField.setText(String.valueOf(typeSociete.getListe().getCompteurIdentifiant()));
         }
         setContentPane(contentPane);
         setModal(true);
@@ -104,7 +112,7 @@ public class FormulaireSociete extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                GestionContrats gestionContrats = new GestionContrats((Client) societe,
+                GestionContrats gestionContrats = new GestionContrats(societe.getIdentifiant(), societe.getRaisonSociale(),
                         typeAction);
                 gestionContrats.pack();
                 gestionContrats.setVisible(true);
@@ -135,30 +143,8 @@ public class FormulaireSociete extends JDialog {
     private void onOK() {
 
         try {
-            if (typeSociete.equals(TypeSociete.PROSPECT)) {
-                Prospect prospect = (Prospect) getSociete();
-                if (typeAction.equals(TypeAction.UPDATE)) {
-                    prospect.setIdentifiant(getSociete().getIdentifiant());
-                    typeSociete.getListe().replace(societe.getRaisonSociale(), prospect);
-                } else {
-                    typeSociete.getListe().ajouter(prospect);
-                }
-            } else {
-                // inspiré de la factory.
-                Client client = (Client) getSociete();
-                Client clientTmp = (Client) societe;
-                if (null != clientTmp.getListeContrats()) {
-                    client.setListeContrats(clientTmp.getListeContrats());
-                }
-                // les listes gerent toutes seul l'auto incrément uniquement en create.
-                if (typeAction.equals(TypeAction.UPDATE)) {
-                    client.setIdentifiant(societe.getIdentifiant());
-                    typeSociete.getListe().replace(societe.getRaisonSociale(), client);
-                } else {
-                    typeSociete.getListe().ajouter(client);
-
-                }
-            }
+            Prospect prospect = (Prospect) getSociete();
+            service.sauvegarder(getSociete());
             dispose();
         } catch (DateTimeParseException e) {
             afficherErreur(e.getMessage());
@@ -169,6 +155,8 @@ public class FormulaireSociete extends JDialog {
         } catch (UniciteException e) {
             afficherErreur(e.getMessage());
         } catch (AffichageException e) {
+            afficherErreur(e.getMessage());
+        } catch (TreatedException e) {
             afficherErreur(e.getMessage());
         }
     }

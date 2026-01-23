@@ -1,4 +1,5 @@
 import fr.cda.java.gestionErreurs.Logger.AppLogger;
+import fr.cda.java.utilitaire.Langue;
 import fr.cda.java.vue.Acceuil;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,11 +20,11 @@ void main() {
     try {
         // on lit les valeurs du fichier, pas à pas, le but c'est de bien comprendre
         //  c'est ici que la langue est choisie
-        File fichier = new File("dataProperties/fr.properties");
-        FileInputStream input = new FileInputStream(fichier);
+
+        InputStream input = getClass().getClassLoader()
+                .getResourceAsStream(Langue.FR.getUrl());
         Properties dataProperties = new Properties();
         dataProperties.load(input);
-        //JsonDao_Obsolete.charger();
 
     } catch (IOException e) {
         AppLogger.LOGGER.severe("Le chargement a rencontré un problème IO voir les droits");

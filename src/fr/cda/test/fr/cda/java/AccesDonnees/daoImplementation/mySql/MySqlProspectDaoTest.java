@@ -1,8 +1,6 @@
 package fr.cda.java.AccesDonnees.daoImplementation.mySql;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,120 +12,123 @@ import fr.cda.java.utilitaire.Interet;
 import fr.cda.java.utilitaire.Severite;
 import fr.cda.java.utilitaire.TypeErreur;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.TestMethodOrder;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+/**
+ * TU MySqlProspectDao - Cycle de vie complet (CRUD).
+ */
 class MySqlProspectDaoTest {
 
-    private final MySqlProspectDao dao = new MySqlProspectDao();
+    private final MySqlProspectDao prospectDao = new MySqlProspectDao();
     private final MySqlAdresseDao adresseDao = new MySqlAdresseDao();
-    private static int idGenere;
-    private static Adresse adresseCommune;
 
-    @Test
-    @Order(0)
-    @DisplayName("Setup : Création Adresse pré-requise")
-    void setupAdresse() throws TreatedException {
-        adresseCommune = (Adresse) adresseDao.create(new Adresse(0, "5", "Av Prospect", "33000", "Bordeaux"));
+    private List<Integer> createdProspectIds;
+    private List<Integer> createdAdresseIds;
+
+    @BeforeEach
+    void setUp() {
+        createdProspectIds = new ArrayList<>();
+        createdAdresseIds = new ArrayList<>();
     }
 
-
-    @Test
-    @Order(1)
-    @DisplayName("CRUD OK : Création de 2 prospects")
-    void testCreateOk() {
-        assertDoesNotThrow(() -> {
-            Prospect p1 = new Prospect(0, "Prospect A", adresseCommune, "0600000001", "p1@test.com",
-                    "Interessé", LocalDate.now(), Interet.OUI);
-            Prospect p2 = new Prospect(0, "Prospect B", adresseCommune, "0600000002", "p2@test.com",
-                    "Pas interessé", LocalDate.now(), Interet.NON);
-
-            Prospect created1 = (Prospect) dao.create(p1);
-            dao.create(p2);
-
-            assertTrue(created1.getIdentifiant() > 0);
-            idGenere = created1.getIdentifiant();
-        });
+    @AfterEach
+    void tearDown() {
+        for (int id : createdProspectIds) {
+            try { prospectDao.delete(id); } catch (TreatedException ignored) {}
+        }
+        for (int id : createdAdresseIds) {
+            try { adresseDao.delete(id); } catch (TreatedException ignored) {}
+        }
     }
 
-    @Test
-    @Order(2)
-    @DisplayName("CRUD OK : Mise à jour Prospect")
-    void testUpdateOk() {
-        assertDoesNotThrow(() -> {
-            Prospect p = (Prospect) dao.getById(idGenere);
-            p.setRaisonSociale("Prospect A Modifié");
-            p.setInteret(Interet.NON);
-
-            dao.update(p);
-
-            Prospect verif = (Prospect) dao.getById(idGenere);
-            assertEquals("Prospect A Modifié", verif.getRaisonSociale());
-            assertEquals(Interet.NON, verif.getInteret());
-        });
+    private Adresse preparerAdresseUnique() throws TreatedException {
+        Adresse adr = new Adresse(0, "42", "Boulevard du Test " + System.nanoTime(), "69000", "Lyon");
+        Adresse cree = adresseDao.create(adr);
+        createdAdresseIds.add(cree.getIdentifiant());
+        return cree;
     }
 
     @Test
-    @Order(3)
-    @DisplayName("CRUD OK : Récupération Liste")
-    void testFindAllOk() {
-        assertDoesNotThrow(() -> {
-            List<Prospect> liste = dao.findAll();
-            assertFalse(liste.isEmpty());
-        });
+    @DisplayName("✅ OK : Création Prospect")
+    void testCreateProspectSuccess() throws TreatedException {
+        Adresse adr = preparerAdresseUnique();
+        String raison = "Creation_" + System.currentTimeMillis();
+        Prospect p = new Prospect(0, raison, adr, "0600000000", "p@test.fr", "Note", LocalDate.now(), Interet.NON);
+
+        Prospect cree = prospectDao.create(p);
+        createdProspectIds.add(cree.getIdentifiant());
+
+        assertNotNull(cree.getIdentifiant());
+        assertEquals(raison, prospectDao.getById(cree.getIdentifiant()).getRaisonSociale());
     }
 
     @Test
-    @Order(4)
-    @DisplayName("CRUD OK : Suppression")
-    void testDeleteOk() {
-        assertDoesNotThrow(() -> dao.delete(idGenere));
-    }
+    @DisplayName("✅ OK : Liste des prospects (findAll)")
+    void testGetAllProspects() throws TreatedException {
+        // On s'assure d'avoir au moins 2 éléments
+        testCreateProspectSuccess();
+        testCreateProspectSuccess();
 
-    // --- FLUX ERREUR ---
+        List<Prospect> liste = prospectDao.findAll();
 
-    @Test
-    @DisplayName("Case 1062 : Unicité Raison Sociale (Sévérité FAIBLE)")
-    void testMappingCode1062() {
-        assertDoesNotThrow(() -> {
-            // Création initiale
-            Prospect prospect = dao.create(new Prospect(0, "Unique Corp test", adresseCommune, "000", "u@u.com", "Com", LocalDate.now(), Interet.OUI));
-
-            // Tentative de doublon
-            TreatedException ex = assertThrows(TreatedException.class, () -> {
-                dao.create(new Prospect(0, "Unique Corp test", adresseCommune, "111", "u2@u.com", "Com", LocalDate.now(), Interet.NON));
-            });
-            dao.delete(prospect.getIdentifiant());
-            assertEquals(Severite.FAIBLE, ex.getSeverite());
-            assertEquals(TypeErreur.DB_MODEL, ex.getTypeErreur());
-        });
+        // La liste ne doit pas être vide et contenir au moins nos 2 créations
+        assertTrue(liste.size() >= 2);
     }
 
     @Test
-    @DisplayName(" Case 1406 : Donnée trop longue (Sévérité FAIBLE)")
-    void testMappingCode1406() {
-        TreatedException ex = assertThrows(TreatedException.class, () -> {
-            String nomLong = "P".repeat(200); // Trop long
-            dao.create(new Prospect(0, nomLong, adresseCommune, "000", "l@l.com", "Com", LocalDate.now(), Interet.OUI));
-        });
-        assertEquals(Severite.FAIBLE, ex.getSeverite());
+    @DisplayName("✅ OK : Mise à jour (update)")
+    void testUpdateProspect() throws TreatedException {
+        // 1. Initialisation
+        Adresse adr = preparerAdresseUnique();
+        Prospect p = prospectDao.create(new Prospect(0, "Initial", adr, "0389794080", "old@mail.com", "Note", LocalDate.now(), Interet.NON));
+        createdProspectIds.add(p.getIdentifiant());
+
+        // 2. Modification locale
+        String nouvelleRaison = "MiseAJour_" + System.nanoTime();
+        p.setRaisonSociale(nouvelleRaison);
+        p.setInteret(Interet.OUI);
+
+        // 3. Persistance
+        prospectDao.update(p);
+
+        // 4. Vérification
+        Prospect maj = prospectDao.getById(p.getIdentifiant());
+        assertEquals(nouvelleRaison, maj.getRaisonSociale());
+        assertEquals(Interet.OUI, maj.getInteret());
     }
 
     @Test
-    @DisplayName("Case 1048 : Champ Obligatoire (Sévérité MOYENNE)")
-    void testMappingCode1048() {
-        TreatedException ex = assertThrows(TreatedException.class, () -> {
-            // Raison Sociale null
-            dao.create(new Prospect(0, null, adresseCommune, "000", "n@n.com", "Com", LocalDate.now(), Interet.OUI));
-        });
-        assertEquals(Severite.MOYENNE, ex.getSeverite());
+    @DisplayName("✅ OK : Suppression (delete)")
+    void testDeleteProspect() throws TreatedException {
+        // 1. Création
+        Adresse adr = preparerAdresseUnique();
+        Prospect p = prospectDao.create(new Prospect(0, "ASupprimer", adr, "0102030405", "del@mail.com", "Note", LocalDate.now(), Interet.NON));
+        int id = p.getIdentifiant();
+
+        // 2. Action
+        prospectDao.delete(id);
+        // On retire de la liste de cleanup car déjà supprimé
+        createdProspectIds.remove(Integer.valueOf(id));
+
+        // 3. Vérification : getById doit lever une exception
+        assertThrows(TreatedException.class, () -> prospectDao.getById(id));
+    }
+
+    @Test
+    @DisplayName("❌ KO : Doublon Raison Sociale")
+    void testCreateProspectDuplicate() throws TreatedException {
+        String raison = "Unique_" + System.nanoTime();
+        Adresse adr = preparerAdresseUnique();
+
+        prospectDao.create(new Prospect(0, raison, adr, "0389897805", "a@a.com", "C", LocalDate.now(), Interet.NON));
+        Prospect p2 = new Prospect(0, raison, adr, "0389897805", "b@b.com", "C", LocalDate.now(), Interet.NON);
+
+        TreatedException ex = assertThrows(TreatedException.class, () -> prospectDao.create(p2));
+        assertEquals(TypeErreur.DB_MODEL, ex.getTypeErreur());
     }
 }

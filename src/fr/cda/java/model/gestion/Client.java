@@ -1,10 +1,7 @@
 package fr.cda.java.model.gestion;
 
 import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
-import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
 import fr.cda.java.gestionErreurs.Exceptions.donneeException;
-import fr.cda.java.model.obsolete_liste.Clients;
-import fr.cda.java.model.obsolete_liste.Prospects;
 import java.util.HashMap;
 import java.util.Map;
 

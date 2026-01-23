@@ -72,7 +72,7 @@ public class MySqlProspectDao implements DaoInterface<Prospect> {
     public void update(Prospect entite) throws TreatedException {
         String query =
                 "update Prospect set raisonSocialeProspect =?, telephoneProspect=?, adresseMailProspect=?"
-                        + ", commentaire=?, , nombreEmployes=?, interet = ?,Id_Adresse=?";
+                        + ", commentaire=?,dateProspection=?, interet = ?,Id_Adresse=?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
 
             stmt.setString(1, entite.getRaisonSociale());

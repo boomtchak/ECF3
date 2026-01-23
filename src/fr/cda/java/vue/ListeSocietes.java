@@ -4,8 +4,7 @@ import fr.cda.java.gestionErreurs.Exceptions.donneeException;
 import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
-import fr.cda.java.model.obsolete_liste.Clients;
-import fr.cda.java.model.obsolete_liste.Prospects;
+import fr.cda.java.model.gestion.Societe;
 import fr.cda.java.utilitaire.TypeSociete;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -31,10 +30,12 @@ public class ListeSocietes extends JDialog {
     private JButton buttonCancel;
     private JTable tableau;
     private TypeSociete typeSociete;
+    List<Societe> listeSociete;
 
 
-    public ListeSocietes(TypeSociete typeSociete) {
+    public ListeSocietes(TypeSociete typeSociete, List<Societe> liste) {
         this.typeSociete = typeSociete;
+        this.listeSociete = liste;
         this.setTitle(new StringBuilder("Liste des ").append(typeSociete.toString()).toString());
         remplissageJTable();
         setContentPane(contentPane);
@@ -93,7 +94,8 @@ public class ListeSocietes extends JDialog {
             modelTable = new DefaultTableModel(new Object[][]{}, entetes.toArray());
 
             // 4. Parcourir la liste de clients et ajouter chaque ligne
-            for (Client client : Clients.getInstance().getListeSocietes().values()) {
+            for (Societe societe : listeSociete) {
+                Client client = (Client) societe;
                 Object[] dataRow = new Object[]{client.getIdentifiant(), client.getRaisonSociale(),
                         client.getAdresse().toString(), // Long
                         client.getTelephone(), // Long
@@ -116,7 +118,9 @@ public class ListeSocietes extends JDialog {
             modelTable = new DefaultTableModel(new Object[][]{}, entetes.toArray());
 
             // 4. Parcourir la liste de clients et ajouter chaque ligne
-            for (Prospect prospect : Prospects.getInstance().getListeSocietes().values()) {
+            for (Societe societe : listeSociete) {
+                Prospect prospect = (Prospect) societe;
+
                 Object[] dataRow = new Object[]{prospect.getIdentifiant(),
                         prospect.getRaisonSociale(), prospect.getAdresse().toString(), // Long
                         prospect.getTelephone(), // Long

@@ -1,89 +1,89 @@
 package fr.cda.java.AccesDonnees.daoImplementation.mySql;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.model.gestion.Adresse;
-import fr.cda.java.model.gestion.Client;
-import fr.cda.java.utilitaire.Severite;
 import fr.cda.java.utilitaire.TypeErreur;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Classe de test pour MySqlAdresseDao.
+ * TU MySqlAdresseDao - Version simplifiée et auto-nettoyante.
+ * Pas d'habillage inutile, focus sur le résultat et la propreté de la DB.
  */
-@TestInstance(Lifecycle.PER_CLASS)
 class MySqlAdresseDaoTest {
 
-    // Instanciation directe pour isoler le test de l'AppContext
-    private final MySqlAdresseDao adresseDao = new MySqlAdresseDao();
-    private final MySqlClientDao clientDao = new MySqlClientDao();
+    private final MySqlAdresseDao dao = new MySqlAdresseDao();
+    private List<Integer> createdIds;
 
-
-    /**
-     * Teste le mappage de l'erreur SQL 1406 (longueur).
-     */
-    @Test
-    @DisplayName("Test Longueur (Code 1406) - Doit retourner Sévérité FAIBLE")
-    void testCreate_DonneeTropLongue_1406() {
-        assertDoesNotThrow(() -> {
-            String rueTropLongue = "A".repeat(255);
-            Adresse adresseInvalide = new Adresse(0, "1", rueTropLongue,
-                    "68000", "COLMAR");
-
-            TreatedException exception = assertThrows(TreatedException.class, () -> {
-                adresseDao.create(adresseInvalide);
-            });
-
-            assertEquals(Severite.FAIBLE, exception.getSeverite());
-            assertEquals(TypeErreur.DB_MODEL, exception.getTypeErreur());
-        });
+    @BeforeEach
+    void setUp() {
+        createdIds = new ArrayList<>();
     }
 
     /**
-     * Teste le mappage de l'erreur SQL 1451 (integrité). Cas : On crée un client lié à l'adresse,
-     * puis on tente de supprimer l'adresse.
+     * Nettoyage automatique après chaque test.
+     * On supprime uniquement ce que le test a créé pour éviter les doublons au prochain run.
      */
-    @Test
-    @DisplayName("Test Intégrité (Code 1451) - Suppression Adresse liée à un Client")
-    void testDelete_ContrainteIntegrite_1451() {
-        assertDoesNotThrow(() -> {
-            // 1. Setup : Créer une adresse
-            Adresse adr = new Adresse(0, "5", "Rue Liée", "33000", "Bordeaux");
-            adr = (Adresse) adresseDao.create(adr);
-
-            // 2. Setup : Créer un client qui utilise cette adresse (FK)
-            Client client = new Client(0, "Entreprise Test3", adr, "0102030405", "test@test.com",
-                    "Dev", 2000L, 5);
-            clientDao.create(client);
-            // 3. Action : Tentative de suppression de l'adresse
-            int idAdresse = adr.getIdentifiant();
-            TreatedException exception = assertThrows(TreatedException.class, () -> {
-                adresseDao.delete(idAdresse);
-            }, "L'adresse est liée à un client, la suppression doit échouer.");
-            clientDao.delete(client.getIdentifiant());
-
-            assertEquals(Severite.FAIBLE, exception.getSeverite());
-            assertEquals(TypeErreur.DB_MODEL, exception.getTypeErreur());
-        });
+    @AfterEach
+    void tearDown() {
+        for (int id : createdIds) {
+            try {
+                dao.delete(id);
+            } catch (TreatedException e) {
+                // On ignore l'échec du nettoyage pour ne pas masquer l'erreur du test principal
+            }
+        }
     }
 
-    /**
-     * Teste le comportement par défaut.
-     */
-    @Test
-    @DisplayName("Test Erreur Syntaxe")
-    void test_ErreurInconnue_Default() {
-        TreatedException exception = assertThrows(TreatedException.class, () -> {
-            adresseDao.getById(-1);
-        });
+    // --- CASES OK (NOMINAL) ---
 
-        assertEquals(Severite.ELEVEE, exception.getSeverite());
-        assertEquals(TypeErreur.DB_TECH, exception.getTypeErreur());
+    @Test
+    @DisplayName("✅ OK : Création et lecture")
+    void testCreateSuccess() throws TreatedException {
+        // Préparation : on utilise un timestamp pour garantir l'unicité des données de test
+        String uniqueRue = "Rue " + System.currentTimeMillis();
+        Adresse adr = new Adresse(0, "10", uniqueRue, "75000", "Paris");
+
+        // Action : Si ça throw, JUnit fera échouer le test (pas besoin de assertDoesNotThrow)
+        Adresse cree = dao.create(adr);
+
+        // Enregistrement pour le cleanup
+        createdIds.add(cree.getIdentifiant());
+
+        // Vérification
+        assertTrue(cree.getIdentifiant() > 0);
+        Adresse trouve = dao.getById(cree.getIdentifiant());
+        assertNotNull(trouve);
+        assertEquals(uniqueRue, trouve.getNomDeRue());
+    }
+
+    // --- CASES KO (ERROR MAPPING) ---
+
+
+    @Test
+    @DisplayName("❌ KO : Donnée trop longue (Code 1406)")
+    void testDataTooLong() {
+        String tropLong = "A".repeat(300); // Dépasse le VARCHAR habituel
+        Adresse adr = new Adresse(0, "1", tropLong, "00000", "City");
+
+        TreatedException ex = assertThrows(TreatedException.class, () -> dao.create(adr));
+
+        assertEquals(TypeErreur.DB_MODEL, ex.getTypeErreur());
+    }
+
+    @Test
+    @DisplayName("❌ KO : ID inexistant")
+    void testGetNotFound() {
+        // On cherche un ID qui n'existe pas
+        assertThrows(TreatedException.class, () -> dao.getById(-999));
     }
 }

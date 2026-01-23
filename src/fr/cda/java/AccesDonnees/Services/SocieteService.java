@@ -66,13 +66,13 @@ public class SocieteService {
     }
 
 
-    public Societe instancierSociete(int id) throws TreatedException {
+    public Societe getSociete(int id) throws TreatedException {
         Societe societe = (Societe) societeDao.getById(id);
         societe.setAdresse((Adresse) adresseDao.getById(societe.getIdAdresse()));
         return societe;
     }
 
-    public List<Societe> instancierListeSociete() throws TreatedException {
+    public List<Societe> getListeSociete() throws TreatedException {
 
         List<Societe> liste = societeDao.findAll();
         for (Societe s : liste) {

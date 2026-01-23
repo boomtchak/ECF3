@@ -1,8 +1,12 @@
 package fr.cda.java.gestionErreurs.Logger;
 
+import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
+import fr.cda.java.utilitaire.Severite;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -23,6 +27,57 @@ public class AppLogger {
      * Logger principal de l'application
      */
     public static final Logger LOGGER = Logger.getLogger(AppLogger.class.getName());
+
+    /**
+     * Log une exception et la retourne pour permettre le throw immédiat. Usage : throw
+     * AppLogger.log(te);
+     */
+    public static TreatedException log(TreatedException te,) {
+        Level level = mapSeveriteToLevel(te.getSeverite());
+
+        // Formatage du message pour le log
+        String logMessage = String.format("[%s] [%s] [%s] Sévérité: %s | Message: %s",
+                LocalDateTime.now(),
+                te.getTypeErreur(),
+                extraireOrigine(te),
+                te.getSeverite(),
+                te.getMessage());
+
+        // Log effectif
+        LOGGER.log(level, logMessage);
+        return te; // On retourne l'objet pour chaîner le throw
+    }
+
+    private static Level mapSeveriteToLevel(Severite severite) {
+        if (severite == null) {
+            return Level.SEVERE;
+        }
+        return switch (severite) {
+            case BASIQUE -> Level.FINE;
+            case FAIBLE -> Level.INFO;
+            case MOYENNE -> Level.WARNING;
+            case ELEVEE -> Level.SEVERE;
+            case URGENT -> Level.SEVERE;
+        };
+    }
+
+    /**
+     * Analyse la stack trace pour trouver la classe et la méthode d'origine.
+     */
+    private static String extraireOrigine(TreatedException te) {
+        StackTraceElement[] stack = te.getStackTrace();
+        if (stack.length > 0) {
+            for (StackTraceElement element : stack) {
+                String className = element.getClassName();
+                if (!className.contains("gestionErreurs") && !className.contains("AppLogger")) {
+                    String simpleClassName = className.substring(className.lastIndexOf('.') + 1);
+                    return simpleClassName + "." + element.getMethodName();
+                }
+            }
+            return stack[0].getMethodName();
+        }
+        return "OrigineInconnue";
+    }
 
     /**
      *

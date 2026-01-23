@@ -47,15 +47,13 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
                 }
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
-            if(AppLogger)
-
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         return entite;
     }
@@ -73,13 +71,13 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
             int rs = stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
     }
 
@@ -99,13 +97,13 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
                         rs.getString("ville"));
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         if (adresse == null) {
             throw gestionDesErreurs.handleException(
@@ -129,13 +127,13 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
                 liste.add(adresse);
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         return liste;
     }
@@ -147,13 +145,13 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
     }
 

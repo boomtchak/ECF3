@@ -44,13 +44,13 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                 }
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         return entite;
     }
@@ -66,13 +66,13 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
             int rs = stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
     }
 
@@ -90,13 +90,13 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                         rs.getDouble("montantContrat"));
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         if (contrat == null) {
             throw gestionDesErreurs.handleException(
@@ -119,13 +119,13 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                 liste.add(contrat);
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         if (liste.isEmpty()) {
             throw gestionDesErreurs.handleException(
@@ -147,13 +147,13 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                 liste.add(contrat);
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         return liste;
     }
@@ -165,13 +165,13 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
     }
 

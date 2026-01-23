@@ -1,5 +1,6 @@
 package fr.cda.java.gestionErreurs.Logger;
 
+import fr.cda.java.AccesDonnees.Services.TreatedExceptionService;
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.utilitaire.Severite;
 import java.io.File;
@@ -22,17 +23,19 @@ import java.util.logging.Logger;
 public class AppLogger {
 
     private static final String REPERTOIRE_DATA = "Logs";
+    private TreatedExceptionService gestionDesErreurs = new TreatedExceptionService();
     /**
      *
      * Logger principal de l'application
      */
     public static final Logger LOGGER = Logger.getLogger(AppLogger.class.getName());
 
+
     /**
      * Log une exception et la retourne pour permettre le throw immédiat. Usage : throw
      * AppLogger.log(te);
      */
-    public static TreatedException log(TreatedException te,) {
+    public static TreatedException log(TreatedException te) {
         Level level = mapSeveriteToLevel(te.getSeverite());
 
         // Formatage du message pour le log

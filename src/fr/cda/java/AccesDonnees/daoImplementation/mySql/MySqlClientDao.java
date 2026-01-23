@@ -53,13 +53,13 @@ public class MySqlClientDao implements DaoInterface<Client> {
                 }
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         return entite;
     }
@@ -82,13 +82,13 @@ public class MySqlClientDao implements DaoInterface<Client> {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
     }
 
@@ -113,13 +113,13 @@ public class MySqlClientDao implements DaoInterface<Client> {
             }
 
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         if (client == null) {
             throw gestionDesErreurs.handleException(
@@ -147,13 +147,13 @@ public class MySqlClientDao implements DaoInterface<Client> {
                 liste.add(client);
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         return liste;
     }
@@ -165,13 +165,13 @@ public class MySqlClientDao implements DaoInterface<Client> {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
     }
 
@@ -192,13 +192,13 @@ public class MySqlClientDao implements DaoInterface<Client> {
                 retour = rs.next();
             }
         } catch (SQLException e) {
-            throw gestionDesErreurs.handleException(e, TypeBDD.MYSQL);
+           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (Exception e) {
-            throw gestionDesErreurs.handleException(e);
+            throw AppLogger.log(gestionDesErreurs.handleException(e));
         }
         return retour;
     }

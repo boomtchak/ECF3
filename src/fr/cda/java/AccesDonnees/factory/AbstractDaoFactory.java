@@ -42,21 +42,21 @@ public abstract class AbstractDaoFactory {
             } catch (NoSuchMethodException e) {
                 AppLogger.LOGGER.severe(
                         "Constructeur introuvable pour " + classe.getSimpleName());
-                throw gestionDesErreurs.handleException(e);
+                throw AppLogger.log(gestionDesErreurs.handleException(e));
 
             } catch (InstantiationException e) {
                 AppLogger.LOGGER.severe(
                         new StringBuilder
                                 ("Impossible d'instancier la classe abstraite ou interface")
                                 .append(classe.getSimpleName()).toString());
-                throw gestionDesErreurs.handleException(e);
+                throw AppLogger.log(gestionDesErreurs.handleException(e));
 
             } catch (IllegalAccessException e) {
                 AppLogger.LOGGER.severe(
                         new StringBuilder
                                 (" Accès refuse au constructeur de")
                                 .append(classe.getSimpleName()).toString());
-                throw gestionDesErreurs.handleException(e);
+                throw AppLogger.log(gestionDesErreurs.handleException(e));
 
             } catch (InvocationTargetException e) {
                 AppLogger.LOGGER.severe(
@@ -64,7 +64,7 @@ public abstract class AbstractDaoFactory {
                                 (" Le constructeur de ").append(classe.getSimpleName())
                                 .append(" a leve une exception : ").append(e.getCause())
                                 .toString());
-                throw gestionDesErreurs.handleException(e);
+                throw AppLogger.log(gestionDesErreurs.handleException(e));
             }
         }
         return retour;

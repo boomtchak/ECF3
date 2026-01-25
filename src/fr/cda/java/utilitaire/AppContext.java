@@ -3,7 +3,7 @@ package fr.cda.java.utilitaire;
 /**
  * AppContext
  *
- * <p>Description : …</p>
+ * <p>Description : Variable globales de l'application</p>
  *
  * @author CDA-09
  * @version 1.0

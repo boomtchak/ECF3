@@ -1,6 +1,7 @@
 package fr.cda.java.utilitaire;
 
 import fr.cda.java.gestionErreurs.Logger.AppLogger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -27,7 +28,10 @@ public class LabelManager {
         chargerLesDonnees();
     }
 
-    // 2. On extrait la logique dans une méthode réutilisable
+    /**
+     *
+     * 2. On extrait la logique dans une méthode réutilisable
+     */
     private static void chargerLesDonnees() {
         properties.clear();
         try (InputStream input = LabelManager.class.getClassLoader()
@@ -42,23 +46,33 @@ public class LabelManager {
         }
     }
 
-    // Méthode d'accès au labels
+    /**
+     *
+     * Méthode d'accès au labels
+     */
     public static String get(String key, Object... args) {
 
         String message = get(key);
 
-            return MessageFormat.format(message, args);
+        return MessageFormat.format(message, args);
     }
 
-    // Méthode d'accès au labels
+    /**
+     * Méthode d'accès au labels
+     *
+     */
     public static String get(String key) {
 
         String message = properties.getProperty(key, "!" + key + "!");
-            return properties.getProperty(key, "!" + key + "!");
+        return properties.getProperty(key, "!" + key + "!");
     }
 
+    /**
+     * modifie la langue de l'appli, ce qui va changer les variables globales associées./
+     * @param langue
+     */
     public static void changerLangue(Langue langue) {
-       AppContext.langue = langue;
+        AppContext.langue = langue;
 
         propertiesUrl = langue.getUrl();
         chargerLesDonnees();

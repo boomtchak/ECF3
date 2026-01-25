@@ -27,6 +27,12 @@ public class SocieteService {
 
     TypeSociete typeSociete;
 
+    /**
+     * crée ou met a jour un clien ou un prospect
+     * @param societe
+     * @return l'entité crée.
+     * @throws TreatedException
+     */
     public Societe sauvegarder(Societe societe) throws TreatedException {
         DaoInterface daoConcurrent = null;
         if (typeSociete == TypeSociete.CLIENT) {

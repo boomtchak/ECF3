@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compiled class file
 *.class
 
@@ -14,11 +15,58 @@
 *.jar
 *.war
 *.nar
+=======
+# ----------------------------
+# ChatGPT-generated .gitignore
+# Project: ECF Java Swing
+# ----------------------------
+
+# Compiled class files
+*.class
+
+# Logs
+*.Logs
+
+# IDE / Editor
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Build output
+/out/
+/target/
+/build/
+
+
+# Package files
+*.war
+>>>>>>> master
 *.ear
 *.zip
 *.tar.gz
 *.rar
 
+<<<<<<< HEAD
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+=======
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Crash reports
+hs_err_pid*
+replay_pid*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.log
+>>>>>>> master

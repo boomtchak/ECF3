@@ -1,0 +1,11 @@
+unnamed package
+fr.cda.java.AccesDonnees
+fr.cda.java.AccesDonnees.daoImplementation.mongo
+fr.cda.java.AccesDonnees.daoImplementation.mySql
+fr.cda.java.AccesDonnees.factory
+fr.cda.java.AccesDonnees.Services
+fr.cda.java.gestionErreurs.Exceptions
+fr.cda.java.gestionErreurs.Logger
+fr.cda.java.model.gestion
+fr.cda.java.utilitaire
+fr.cda.java.vue

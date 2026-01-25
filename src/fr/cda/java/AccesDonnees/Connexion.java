@@ -1,0 +1,90 @@
+package fr.cda.java.AccesDonnees;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+/**
+ * DriverManager
+ *
+ * <p>Description : …</p>
+ *
+ * @author CDA-09
+ * @version 1.0
+ * @since 15/01/2026
+ */
+public class Connexion {
+
+    private static Connexion instance;
+
+    private Connection connection;
+
+    /**
+     * BLOC STATIC : Enregistrement du crochet de fermeture (Shutdown Hook).
+     * S'exécute dès que la classe est sollicitée.
+     */
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                if (instance != null && instance.connection != null
+                        && !instance.connection.isClosed()) {
+                    instance.connection.close();
+                    // On utilise System.out car le Logger peut déjà être éteint par la JVM à ce stade
+                    System.out.println("[INFO] Database fermée proprement par le Shutdown Hook.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
+
+    /**
+     * constructeur privé, tout ce qu'on peut appeler, c'est getConnexion. il possede une seule
+     * instance, contenant une connection.
+     */
+    private Connexion() throws IOException, SQLException {
+
+        // on lit les valeurs du fichier, pas à pas, le but c'est de bien comprendre
+        // copier coller du cours
+        Properties dataProperties = getDatabaseProperties();
+        String url = dataProperties.getProperty("url");
+        String login = dataProperties.getProperty("login");
+        String password = dataProperties.getProperty("password");
+
+        // ici on crée l'object instance
+        connection = DriverManager.getConnection(url, login, password);
+
+    }
+
+    /**
+     * Si on a déjà instancié connexion connection existe et vaut quelque chose, on renvoie la
+     * connection, sinon il va d'abord la crée en passant par le constructeur.
+     */
+    public static Connection getConnection() throws SQLException, IOException {
+
+        if (instance == null || instance.connection == null || instance.connection.isClosed()) {
+            instance = new Connexion();
+        }
+        return instance.connection;
+    }
+
+    /**
+     * // on lit les valeurs du fichier, pas à pas, le but c'est de bien comprendre
+     *
+     * @return l'url attendue par le DriverManager
+     */
+    private Properties getDatabaseProperties() throws IOException {
+        InputStream input = getClass().getClassLoader()
+                .getResourceAsStream("dataProperties/database.properties");
+        Properties dataProperties = new Properties();
+        dataProperties.load(input);
+        return dataProperties;
+    }
+
+
+}

@@ -65,7 +65,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
             stmt.setDouble(1, entite.getMontantContrat());
             stmt.setString(2, entite.getNomContrat());
             stmt.setInt(3, entite.getIdentifiant());
-           stmt.executeUpdate();
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
@@ -164,11 +164,16 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
     @Override
     public void delete(int id) throws TreatedException {
         String query = "delete from contrat where Id_Contrat =?";
-        try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+        try (java.sql.Connection conn = Connexion.getConnection()) {
+            conn.setAutoCommit(false); // EXIGENCE SUJET
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+                conn.commit(); // Validation
+            } catch (SQLException e) {
+                conn.rollback(); // Sécurité
+                throw AppLogger.log(gestionDesErreurs.handleException(e));
+            }
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {

@@ -163,11 +163,17 @@ public class MySqlClientDao implements DaoInterface<Client> {
     @Override
     public void delete(int id) throws TreatedException {
         String query = "delete from Client where Id_Client = ?";
-        try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+        try (java.sql.Connection conn = Connexion.getConnection()) {
+            conn.setAutoCommit(false); // EXIGENCE SUJET
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+                conn.commit(); // Validation
+            } catch (SQLException e) {
+
+                conn.rollback(); // Sécurité
+                throw AppLogger.log(gestionDesErreurs.handleException(e));
+            }
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {

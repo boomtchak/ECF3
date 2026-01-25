@@ -21,7 +21,7 @@ public interface DaoInterface<T> {
      * @param entite
      * @return l'objet maj
      */
-    T create(T entite) throws TreatedException;
+    T Create(T entite) throws TreatedException;
 
 
     /**
@@ -30,14 +30,14 @@ public interface DaoInterface<T> {
      * @param id
      * @return
      */
-    T getById(int id) throws TreatedException;
+    T findById(int id) throws TreatedException;
 
     /**
      * Met à jour un objet.rien à renvoyer.
      *
      * @param objet
      */
-    void update(T entite) throws TreatedException;
+    void save(T entite) throws TreatedException;
 
     /**
      *

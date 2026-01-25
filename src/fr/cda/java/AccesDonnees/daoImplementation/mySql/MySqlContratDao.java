@@ -30,7 +30,7 @@ import java.util.List;
 public class MySqlContratDao implements DaoInterface<Contrat> {
 
     @Override
-    public Contrat create(Contrat entite) throws TreatedException {
+    public Contrat Create(Contrat entite) throws TreatedException {
 
         String query = "INSERT INTO Contrat ( montantContrat, nomContrat, Id_Client) VALUES"
                 + "(?,?, ?, ?)";
@@ -59,7 +59,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
 
 
     @Override
-    public void update(Contrat entite) throws TreatedException {
+    public void save(Contrat entite) throws TreatedException {
         String query = "update contrat set  montantContrat=? , nomContrat = ?  where Id_Contrat = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
             stmt.setDouble(1, entite.getMontantContrat());
@@ -79,7 +79,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
     }
 
     @Override
-    public Contrat getById(int id) throws TreatedException {
+    public Contrat findById(int id) throws TreatedException {
         Contrat contrat = null;
         String query = "select *  from Contrat  where Id_Contrat = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {

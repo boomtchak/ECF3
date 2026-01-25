@@ -19,7 +19,7 @@ public class MongoContratDao implements DaoInterface<Contrat> {
 
 
     @Override
-    public Contrat create(Contrat entite) {
+    public Contrat Create(Contrat entite) {
 
 
 
@@ -27,12 +27,12 @@ public class MongoContratDao implements DaoInterface<Contrat> {
     }
 
     @Override
-    public Contrat getById(int id) {
+    public Contrat findById(int id) {
         return null;
     }
 
     @Override
-    public void update(Contrat entite) {
+    public void save(Contrat entite) {
 
     }
 

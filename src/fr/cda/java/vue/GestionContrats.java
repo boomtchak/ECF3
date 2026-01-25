@@ -176,14 +176,14 @@ public class GestionContrats extends JDialog {
                         selectedContrat.setMontantContrat(
                                 Double.valueOf(montantCtTextField.getText()));
                         if (selectedContrat.getIdentifiant() != 0) {
-                            dao.update(selectedContrat);
+                            dao.save(selectedContrat);
                         }
                         mapContrats.replace(selectedContrat.getIdentifiant(), selectedContrat);
                     } else {
                         Contrat contrat = new Contrat(clientId,
                                 nomCtTextField.getText(),
                                 Double.valueOf(montantCtTextField.getText()));
-                        dao.create(selectedContrat);
+                        dao.Create(selectedContrat);
                         mapContrats.put(selectedContrat.getIdentifiant(), selectedContrat);
 
                     }

@@ -17,17 +17,17 @@ import java.util.List;
 public class MongoClientDao implements DaoInterface<Client> {
 
     @Override
-    public Client create(Client entite) {
+    public Client Create(Client entite) {
         return null;
     }
 
     @Override
-    public Client getById(int id) {
+    public Client findById(int id) {
         return null;
     }
 
     @Override
-    public void update(Client entite) {
+    public void save(Client entite) {
 
     }
 

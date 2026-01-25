@@ -54,14 +54,14 @@ class MySqlAdresseDaoTest {
         Adresse adr = new Adresse(0, "10", uniqueRue, "75000", "Paris");
 
         // Action : Si ça throw, JUnit fera échouer le test (pas besoin de assertDoesNotThrow)
-        Adresse cree = dao.create(adr);
+        Adresse cree = dao.Create(adr);
 
         // Enregistrement pour le cleanup
         createdIds.add(cree.getIdentifiant());
 
         // Vérification
         assertTrue(cree.getIdentifiant() > 0);
-        Adresse trouve = dao.getById(cree.getIdentifiant());
+        Adresse trouve = dao.findById(cree.getIdentifiant());
         assertNotNull(trouve);
         assertEquals(uniqueRue, trouve.getNomDeRue());
     }
@@ -75,7 +75,7 @@ class MySqlAdresseDaoTest {
         String tropLong = "A".repeat(300); // Dépasse le VARCHAR habituel
         Adresse adr = new Adresse(0, "1", tropLong, "00000", "City");
 
-        TreatedException ex = assertThrows(TreatedException.class, () -> dao.create(adr));
+        TreatedException ex = assertThrows(TreatedException.class, () -> dao.Create(adr));
 
         assertEquals(TypeErreur.DB_MODEL, ex.getTypeErreur());
     }
@@ -84,6 +84,6 @@ class MySqlAdresseDaoTest {
     @DisplayName("❌ KO : ID inexistant")
     void testGetNotFound() {
         // On cherche un ID qui n'existe pas
-        assertThrows(TreatedException.class, () -> dao.getById(-999));
+        assertThrows(TreatedException.class, () -> dao.findById(-999));
     }
 }

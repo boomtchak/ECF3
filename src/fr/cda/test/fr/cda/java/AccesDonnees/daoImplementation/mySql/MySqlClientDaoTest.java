@@ -56,7 +56,7 @@ class MySqlClientDaoTest {
      */
     private Adresse preparerAdresseUnique() throws TreatedException {
         Adresse adr = new Adresse(0, "1", "Rue " + System.nanoTime(), "00000", "City");
-        Adresse cree = adresseDao.create(adr);
+        Adresse cree = adresseDao.Create(adr);
         createdAdresseIds.add(cree.getIdentifiant());
         return cree;
     }
@@ -72,12 +72,12 @@ class MySqlClientDaoTest {
         Client client = new Client(0, raisonUnique, adr, "0102030405", "test@test.com", "Comment", 1000L, 10);
 
         // Action
-        Client cree = clientDao.create(client);
+        Client cree = clientDao.Create(client);
         createdClientIds.add(cree.getIdentifiant());
 
         // Vérification
         assertTrue(cree.getIdentifiant() > 0);
-        Client trouve = clientDao.getById(cree.getIdentifiant());
+        Client trouve = clientDao.findById(cree.getIdentifiant());
         assertEquals(raisonUnique, trouve.getRaisonSociale());
         assertNotNull(trouve.getIdentifiant());
     }
@@ -90,13 +90,13 @@ class MySqlClientDaoTest {
         // 1. Premier client
         Adresse adr = preparerAdresseUnique();
         String raison = "UniqueCorp_" + System.nanoTime();
-        Client c1 = clientDao.create(new Client(0, raison, adr, "0389794080", "a@a.com", "C", 20000L, 70));
+        Client c1 = clientDao.Create(new Client(0, raison, adr, "0389794080", "a@a.com", "C", 20000L, 70));
         createdClientIds.add(c1.getIdentifiant());
 
         // 2. Tentative de doublon
         Client c2 = new Client(0, raison, adr, "0389794080", "b@b.com", "C", 20000L, 505);
 
-        TreatedException ex = assertThrows(TreatedException.class, () -> clientDao.create(c2));
+        TreatedException ex = assertThrows(TreatedException.class, () -> clientDao.Create(c2));
 
         assertEquals(Severite.FAIBLE, ex.getSeverite());
         assertEquals(TypeErreur.DB_MODEL, ex.getTypeErreur());
@@ -109,7 +109,7 @@ class MySqlClientDaoTest {
         // Raison Sociale à NULL
         Client clientInvalide = new Client(0, null, adr, "0389794080", "a@a.com", "C", 1000L, 400);
 
-        TreatedException ex = assertThrows(TreatedException.class, () -> clientDao.create(clientInvalide));
+        TreatedException ex = assertThrows(TreatedException.class, () -> clientDao.Create(clientInvalide));
 
         // Le service doit mapper 1048 en MOYENNE
         assertEquals(Severite.MOYENNE, ex.getSeverite());
@@ -118,6 +118,6 @@ class MySqlClientDaoTest {
     @Test
     @DisplayName("❌ KO : ID inexistant")
     void testGetClientNotFound() {
-        assertThrows(TreatedException.class, () -> clientDao.getById(-1));
+        assertThrows(TreatedException.class, () -> clientDao.findById(-1));
     }
 }

@@ -10,7 +10,6 @@ import fr.cda.java.model.gestion.Adresse;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Contrat;
 import fr.cda.java.utilitaire.Severite;
-import fr.cda.java.utilitaire.TypeErreur;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -59,12 +58,12 @@ class MySqlContratDaoTest {
     private Client preparerClientParent() throws TreatedException {
         // 1. Adresse
         Adresse adr = new Adresse(0, "10", "Rue du Test " + System.nanoTime(), "75000", "Paris");
-        Adresse adrCree = adresseDao.create(adr);
+        Adresse adrCree = adresseDao.Create(adr);
         createdAdresseIds.add(adrCree.getIdentifiant());
 
         // 2. Client
         Client client = new Client(0, "ClientTest_" + System.nanoTime(), adrCree, "0102030405", "test@contrat.com", "RAS", 500L, 5);
-        Client clientCree = clientDao.create(client);
+        Client clientCree = clientDao.Create(client);
         createdClientIds.add(clientCree.getIdentifiant());
 
         return clientCree;
@@ -77,11 +76,11 @@ class MySqlContratDaoTest {
         String nomContratUnique = "CNTR_" + System.currentTimeMillis();
         Contrat contrat = new Contrat(parent.getIdentifiant(), nomContratUnique,1500.50);
 
-        Contrat cree = contratDao.create(contrat);
+        Contrat cree = contratDao.Create(contrat);
         createdContratIds.add(cree.getIdentifiant());
 
         assertTrue(cree.getIdentifiant() > 0);
-        assertEquals(nomContratUnique, contratDao.getById(cree.getIdentifiant()).getNomContrat());
+        assertEquals(nomContratUnique, contratDao.findById(cree.getIdentifiant()).getNomContrat());
     }
 
     @Test
@@ -91,7 +90,7 @@ class MySqlContratDaoTest {
         String nomContratUnique = "CNTR_" + System.currentTimeMillis();
         Contrat invalide = new Contrat(parent.getIdentifiant(), nomContratUnique,1500.50);
 
-        TreatedException ex = assertThrows(TreatedException.class, () -> contratDao.create(invalide));
+        TreatedException ex = assertThrows(TreatedException.class, () -> contratDao.Create(invalide));
         assertEquals(Severite.MOYENNE, ex.getSeverite());
     }
 }

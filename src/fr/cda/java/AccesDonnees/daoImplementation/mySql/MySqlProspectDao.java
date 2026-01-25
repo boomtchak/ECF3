@@ -28,7 +28,7 @@ import java.util.List;
 public class MySqlProspectDao implements DaoInterface<Prospect> {
 
     @Override
-    public Prospect create(Prospect entite) throws TreatedException {
+    public Prospect Create(Prospect entite) throws TreatedException {
 
         // TODO configurer le saut de ligne formatage intellij je n'ai pas trouvé de solution.
         String query =
@@ -66,7 +66,7 @@ public class MySqlProspectDao implements DaoInterface<Prospect> {
 
 
     @Override
-    public void update(Prospect entite) throws TreatedException {
+    public void save(Prospect entite) throws TreatedException {
         String query =
                 "update Prospect set raisonSocialeProspect =?, telephoneProspect=?, adresseMailProspect=?"
                         + ", commentaire=?,dateProspection=?, interet = ?,Id_Adresse=? where Id_Prospect =?";
@@ -94,7 +94,7 @@ public class MySqlProspectDao implements DaoInterface<Prospect> {
     }
 
     @Override
-    public Prospect getById(int id) throws TreatedException {
+    public Prospect findById(int id) throws TreatedException {
         Prospect prospect = null;
         String query = "select *  from Prospect   where Id_Prospect = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {

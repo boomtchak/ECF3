@@ -47,12 +47,12 @@ public class SocieteService {
                     new UniciteException(societe.getRaisonSociale()));
         } else {
             if (societe.getIdentifiant() != 0) {
-                societeDao.update(societe);
-                adresseDao.update(societe.getAdresse());
+                societeDao.save(societe);
+                adresseDao.save(societe.getAdresse());
 
             } else {
-                societe.setAdresse((Adresse) adresseDao.create(societe.getAdresse()));
-                societe = (Societe) societeDao.create(societe);
+                societe.setAdresse((Adresse) adresseDao.Create(societe.getAdresse()));
+                societe = (Societe) societeDao.Create(societe);
 
             }
         }
@@ -77,7 +77,7 @@ public class SocieteService {
         for (Societe s : liste) {
             // On récupère les adresses via le parentId (id de la société)
             s.setAdresse((Adresse)
-                    adresseDao.getById(s.getIdAdresse()));
+                    adresseDao.findById(s.getIdAdresse()));
         }
         return liste;
     }

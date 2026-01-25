@@ -16,17 +16,17 @@ import java.util.List;
 public class MongoProspectDao implements DaoInterface {
 
     @Override
-    public Object create(Object entite) {
+    public Object Create(Object entite) {
         return null;
     }
 
     @Override
-    public Object getById(int id) {
+    public Object findById(int id) {
         return null;
     }
 
     @Override
-    public void update(Object entite) {
+    public void save(Object entite) {
 
     }
 

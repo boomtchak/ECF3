@@ -9,7 +9,6 @@ import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.model.gestion.Adresse;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.utilitaire.Interet;
-import fr.cda.java.utilitaire.Severite;
 import fr.cda.java.utilitaire.TypeErreur;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ class MySqlProspectDaoTest {
 
     private Adresse preparerAdresseUnique() throws TreatedException {
         Adresse adr = new Adresse(0, "42", "Boulevard du Test " + System.nanoTime(), "69000", "Lyon");
-        Adresse cree = adresseDao.create(adr);
+        Adresse cree = adresseDao.Create(adr);
         createdAdresseIds.add(cree.getIdentifiant());
         return cree;
     }
@@ -60,11 +59,11 @@ class MySqlProspectDaoTest {
         String raison = "Creation_" + System.currentTimeMillis();
         Prospect p = new Prospect(0, raison, adr, "0600000000", "p@test.fr", "Note", LocalDate.now(), Interet.NON);
 
-        Prospect cree = prospectDao.create(p);
+        Prospect cree = prospectDao.Create(p);
         createdProspectIds.add(cree.getIdentifiant());
 
         assertNotNull(cree.getIdentifiant());
-        assertEquals(raison, prospectDao.getById(cree.getIdentifiant()).getRaisonSociale());
+        assertEquals(raison, prospectDao.findById(cree.getIdentifiant()).getRaisonSociale());
     }
 
     @Test
@@ -82,10 +81,10 @@ class MySqlProspectDaoTest {
 
     @Test
     @DisplayName("✅ OK : Mise à jour (update)")
-    void testUpdateProspect() throws TreatedException {
+    void testSaveProspect() throws TreatedException {
         // 1. Initialisation
         Adresse adr = preparerAdresseUnique();
-        Prospect p = prospectDao.create(new Prospect(0, "Initial", adr, "0389794080", "old@mail.com", "Note", LocalDate.now(), Interet.NON));
+        Prospect p = prospectDao.Create(new Prospect(0, "Initial", adr, "0389794080", "old@mail.com", "Note", LocalDate.now(), Interet.NON));
         createdProspectIds.add(p.getIdentifiant());
 
         // 2. Modification locale
@@ -94,10 +93,10 @@ class MySqlProspectDaoTest {
         p.setInteret(Interet.OUI);
 
         // 3. Persistance
-        prospectDao.update(p);
+        prospectDao.save(p);
 
         // 4. Vérification
-        Prospect maj = prospectDao.getById(p.getIdentifiant());
+        Prospect maj = prospectDao.findById(p.getIdentifiant());
         assertEquals(nouvelleRaison, maj.getRaisonSociale());
         assertEquals(Interet.OUI, maj.getInteret());
     }
@@ -107,7 +106,7 @@ class MySqlProspectDaoTest {
     void testDeleteProspect() throws TreatedException {
         // 1. Création
         Adresse adr = preparerAdresseUnique();
-        Prospect p = prospectDao.create(new Prospect(0, "ASupprimer", adr, "0102030405", "del@mail.com", "Note", LocalDate.now(), Interet.NON));
+        Prospect p = prospectDao.Create(new Prospect(0, "ASupprimer", adr, "0102030405", "del@mail.com", "Note", LocalDate.now(), Interet.NON));
         int id = p.getIdentifiant();
 
         // 2. Action
@@ -116,7 +115,7 @@ class MySqlProspectDaoTest {
         createdProspectIds.remove(Integer.valueOf(id));
 
         // 3. Vérification : getById doit lever une exception
-        assertThrows(TreatedException.class, () -> prospectDao.getById(id));
+        assertThrows(TreatedException.class, () -> prospectDao.findById(id));
     }
 
     @Test
@@ -125,10 +124,10 @@ class MySqlProspectDaoTest {
         String raison = "Unique_" + System.nanoTime();
         Adresse adr = preparerAdresseUnique();
 
-        prospectDao.create(new Prospect(0, raison, adr, "0389897805", "a@a.com", "C", LocalDate.now(), Interet.NON));
+        prospectDao.Create(new Prospect(0, raison, adr, "0389897805", "a@a.com", "C", LocalDate.now(), Interet.NON));
         Prospect p2 = new Prospect(0, raison, adr, "0389897805", "b@b.com", "C", LocalDate.now(), Interet.NON);
 
-        TreatedException ex = assertThrows(TreatedException.class, () -> prospectDao.create(p2));
+        TreatedException ex = assertThrows(TreatedException.class, () -> prospectDao.Create(p2));
         assertEquals(TypeErreur.DB_MODEL, ex.getTypeErreur());
     }
 }

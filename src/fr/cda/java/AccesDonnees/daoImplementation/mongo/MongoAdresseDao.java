@@ -29,17 +29,17 @@ import java.util.List;
 public class MongoAdresseDao implements DaoInterface<Adresse> {
 
     @Override
-    public Adresse create(Adresse entite) throws TreatedException {
+    public Adresse Create(Adresse entite) throws TreatedException {
         return null;
     }
 
     @Override
-    public Adresse getById(int id) throws TreatedException {
+    public Adresse findById(int id) throws TreatedException {
         return null;
     }
 
     @Override
-    public void update(Adresse entite) throws TreatedException {
+    public void save(Adresse entite) throws TreatedException {
 
     }
 

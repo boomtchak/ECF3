@@ -31,8 +31,14 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
 
 
     @Override
-    public Adresse create(Adresse entite) throws TreatedException {
+    public Adresse Create(Adresse entite) throws TreatedException {
 
+       /**
+        * TODO : mettre en place les service./
+        *
+        * if(entite.getIdentifiant() != 0){
+            return this.save(entite);
+       }*/
         String query = "INSERT INTO Adresse ( numeroDeRue, nomDeRue, codePostal, ville) VALUES"
                 + "(?,?, ?, ?)";
         try (PreparedStatement stmt = Connexion.getConnection()
@@ -61,7 +67,7 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
 
 
     @Override
-    public void update(Adresse entite) throws TreatedException {
+    public void save(Adresse entite) throws TreatedException {
         String query = "update Adresse set  nomDeRue=? , numeroDeRue =?, ville =?, codePostal = ? where Id_Adresse = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
             stmt.setString(1, entite.getNomDeRue());
@@ -83,7 +89,7 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
     }
 
     @Override
-    public Adresse getById(int id) throws TreatedException {
+    public Adresse findById(int id) throws TreatedException {
         Adresse adresse = null;
         String query = "select *  from Adresse where Id_Adresse = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {

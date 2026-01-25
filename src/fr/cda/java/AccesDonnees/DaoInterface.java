@@ -21,7 +21,7 @@ public interface DaoInterface<T> {
      * @param entite
      * @return l'objet maj
      */
-    T Create(T entite) throws TreatedException;
+    T create(T entite) throws TreatedException;
 
 
     /**

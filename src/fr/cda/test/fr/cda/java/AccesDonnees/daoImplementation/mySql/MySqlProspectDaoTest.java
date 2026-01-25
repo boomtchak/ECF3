@@ -47,7 +47,7 @@ class MySqlProspectDaoTest {
 
     private Adresse preparerAdresseUnique() throws TreatedException {
         Adresse adr = new Adresse(0, "42", "Boulevard du Test " + System.nanoTime(), "69000", "Lyon");
-        Adresse cree = adresseDao.Create(adr);
+        Adresse cree = adresseDao.create(adr);
         createdAdresseIds.add(cree.getIdentifiant());
         return cree;
     }
@@ -59,7 +59,7 @@ class MySqlProspectDaoTest {
         String raison = "Creation_" + System.currentTimeMillis();
         Prospect p = new Prospect(0, raison, adr, "0600000000", "p@test.fr", "Note", LocalDate.now(), Interet.NON);
 
-        Prospect cree = prospectDao.Create(p);
+        Prospect cree = prospectDao.create(p);
         createdProspectIds.add(cree.getIdentifiant());
 
         assertNotNull(cree.getIdentifiant());
@@ -84,7 +84,7 @@ class MySqlProspectDaoTest {
     void testSaveProspect() throws TreatedException {
         // 1. Initialisation
         Adresse adr = preparerAdresseUnique();
-        Prospect p = prospectDao.Create(new Prospect(0, "Initial", adr, "0389794080", "old@mail.com", "Note", LocalDate.now(), Interet.NON));
+        Prospect p = prospectDao.create(new Prospect(0, "Initial", adr, "0389794080", "old@mail.com", "Note", LocalDate.now(), Interet.NON));
         createdProspectIds.add(p.getIdentifiant());
 
         // 2. Modification locale
@@ -106,7 +106,7 @@ class MySqlProspectDaoTest {
     void testDeleteProspect() throws TreatedException {
         // 1. Création
         Adresse adr = preparerAdresseUnique();
-        Prospect p = prospectDao.Create(new Prospect(0, "ASupprimer", adr, "0102030405", "del@mail.com", "Note", LocalDate.now(), Interet.NON));
+        Prospect p = prospectDao.create(new Prospect(0, "ASupprimer", adr, "0102030405", "del@mail.com", "Note", LocalDate.now(), Interet.NON));
         int id = p.getIdentifiant();
 
         // 2. Action
@@ -124,10 +124,10 @@ class MySqlProspectDaoTest {
         String raison = "Unique_" + System.nanoTime();
         Adresse adr = preparerAdresseUnique();
 
-        prospectDao.Create(new Prospect(0, raison, adr, "0389897805", "a@a.com", "C", LocalDate.now(), Interet.NON));
+        prospectDao.create(new Prospect(0, raison, adr, "0389897805", "a@a.com", "C", LocalDate.now(), Interet.NON));
         Prospect p2 = new Prospect(0, raison, adr, "0389897805", "b@b.com", "C", LocalDate.now(), Interet.NON);
 
-        TreatedException ex = assertThrows(TreatedException.class, () -> prospectDao.Create(p2));
+        TreatedException ex = assertThrows(TreatedException.class, () -> prospectDao.create(p2));
         assertEquals(TypeErreur.DB_MODEL, ex.getTypeErreur());
     }
 }

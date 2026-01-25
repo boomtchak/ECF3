@@ -30,7 +30,7 @@ import java.util.List;
 public class MySqlContratDao implements DaoInterface<Contrat> {
 
     @Override
-    public Contrat Create(Contrat entite) throws TreatedException {
+    public Contrat create(Contrat entite) throws TreatedException {
 
         String query = "INSERT INTO Contrat ( montantContrat, nomContrat, Id_Client) VALUES"
                 + "(?,?, ?, ?)";

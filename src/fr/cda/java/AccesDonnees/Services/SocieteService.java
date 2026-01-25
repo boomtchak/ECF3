@@ -51,8 +51,8 @@ public class SocieteService {
                 adresseDao.save(societe.getAdresse());
 
             } else {
-                societe.setAdresse((Adresse) adresseDao.Create(societe.getAdresse()));
-                societe = (Societe) societeDao.Create(societe);
+                societe.setAdresse((Adresse) adresseDao.create(societe.getAdresse()));
+                societe = (Societe) societeDao.create(societe);
 
             }
         }

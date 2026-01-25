@@ -58,12 +58,12 @@ class MySqlContratDaoTest {
     private Client preparerClientParent() throws TreatedException {
         // 1. Adresse
         Adresse adr = new Adresse(0, "10", "Rue du Test " + System.nanoTime(), "75000", "Paris");
-        Adresse adrCree = adresseDao.Create(adr);
+        Adresse adrCree = adresseDao.create(adr);
         createdAdresseIds.add(adrCree.getIdentifiant());
 
         // 2. Client
         Client client = new Client(0, "ClientTest_" + System.nanoTime(), adrCree, "0102030405", "test@contrat.com", "RAS", 500L, 5);
-        Client clientCree = clientDao.Create(client);
+        Client clientCree = clientDao.create(client);
         createdClientIds.add(clientCree.getIdentifiant());
 
         return clientCree;
@@ -76,7 +76,7 @@ class MySqlContratDaoTest {
         String nomContratUnique = "CNTR_" + System.currentTimeMillis();
         Contrat contrat = new Contrat(parent.getIdentifiant(), nomContratUnique,1500.50);
 
-        Contrat cree = contratDao.Create(contrat);
+        Contrat cree = contratDao.create(contrat);
         createdContratIds.add(cree.getIdentifiant());
 
         assertTrue(cree.getIdentifiant() > 0);
@@ -90,7 +90,7 @@ class MySqlContratDaoTest {
         String nomContratUnique = "CNTR_" + System.currentTimeMillis();
         Contrat invalide = new Contrat(parent.getIdentifiant(), nomContratUnique,1500.50);
 
-        TreatedException ex = assertThrows(TreatedException.class, () -> contratDao.Create(invalide));
+        TreatedException ex = assertThrows(TreatedException.class, () -> contratDao.create(invalide));
         assertEquals(Severite.MOYENNE, ex.getSeverite());
     }
 }

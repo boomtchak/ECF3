@@ -183,7 +183,7 @@ public class GestionContrats extends JDialog {
                         Contrat contrat = new Contrat(clientId,
                                 nomCtTextField.getText(),
                                 Double.valueOf(montantCtTextField.getText()));
-                        dao.Create(selectedContrat);
+                        dao.create(selectedContrat);
                         mapContrats.put(selectedContrat.getIdentifiant(), selectedContrat);
 
                     }

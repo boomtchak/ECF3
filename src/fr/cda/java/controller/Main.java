@@ -15,7 +15,7 @@ import javax.swing.UIManager;
  */
 void main() {
     AppLogger.initFileLogger();
-    UIManager.put("Button.disabledText", Color.BLUE); // Ou une couleur plus lisible que le gris
+    UIManager.put("TextField.inactiveForeground", Color.BLUE); // Ou une couleur plus lisible que le gris
     Acceuil dialog = new Acceuil();
     try {
         // on lit les valeurs du fichier, pas à pas, le but c'est de bien comprendre

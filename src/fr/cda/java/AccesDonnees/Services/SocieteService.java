@@ -57,19 +57,12 @@ public class SocieteService {
     public SocieteService(TypeSociete type) throws TreatedException {
         typeSociete = type;
 
-        if (type.equals(TypeSociete.PROSPECT)) {
+        if (type.equals(TypeSociete.CLIENT)) {
             societeDao = AppContext.typeBDD.getDaoFactory().getClientDao();
 
-        } else if (type.equals(TypeSociete.CLIENT)) {
+        } else if (type.equals(TypeSociete.PROSPECT)) {
             societeDao = AppContext.typeBDD.getDaoFactory().getProspectDao();
         }
-    }
-
-
-    public Societe getSociete(int id) throws TreatedException {
-        Societe societe = (Societe) societeDao.getById(id);
-        societe.setAdresse((Adresse) adresseDao.getById(societe.getIdAdresse()));
-        return societe;
     }
 
     public List<Societe> getListeSociete() throws TreatedException {

@@ -6,12 +6,14 @@ import fr.cda.java.gestionErreurs.Exceptions.MandatoryDataException;
 import fr.cda.java.gestionErreurs.Exceptions.RegexException;
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.gestionErreurs.Exceptions.UniciteException;
+import fr.cda.java.model.gestion.Adresse;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.model.gestion.Societe;
 import fr.cda.java.utilitaire.Interet;
 import fr.cda.java.utilitaire.TypeAction;
 import fr.cda.java.utilitaire.TypeSociete;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -143,7 +145,6 @@ public class FormulaireSociete extends JDialog {
     private void onOK() {
 
         try {
-            Prospect prospect = (Prospect) getSociete();
             service.sauvegarder(getSociete());
             dispose();
         } catch (DateTimeParseException e) {
@@ -245,19 +246,22 @@ public class FormulaireSociete extends JDialog {
      */
     private Societe getSociete() throws MandatoryDataException, RegexException, UniciteException {
         Societe retour = null;
-       /* TODO Adresse adresse = new Adresse(1,numRueTextField.getText(), nomRueTextField.getText(),
-                cpTextField.getText(), villeTextField.getText());
-        if (typeSociete.equals(TypeSociete.CLIENT)){
-
-        retour = new Client(raisonSocialeTextField.getText(), adresse, telTextField.getText(), mailTextField.getText(),
-                comTextField.getText(), Long.parseLong( nbEmployeTextField.getText()), Integer.getInteger(chiffreAffaireTextField.getText()));
+        int idAdresse = 0;
+        if (this.societe != null && this.societe.getAdresse() != null) {
+            idAdresse = this.societe.getAdresse().getIdentifiant();
         }
-        if (typeSociete.equals(TypeSociete.PROSPECT)){
-            retour = new Prospect(raisonSocialeTextField.getText(), adresse, telTextField.getText(), mailTextField.getText(),
+        Adresse adresse = new Adresse(idAdresse, numRueTextField.getText(), nomRueTextField.getText(),
+                cpTextField.getText(), villeTextField.getText());
+        if (typeSociete.equals(TypeSociete.CLIENT)) {
+
+            retour = new Client(Integer.parseInt(idTextField.getText()), raisonSocialeTextField.getText(), adresse, telTextField.getText(), mailTextField.getText(),
+                    comTextField.getText(), Long.parseLong(chiffreAffaireTextField.getText()),  Integer.parseInt(nbEmployeTextField.getText()));
+        }
+        if (typeSociete.equals(TypeSociete.PROSPECT)) {
+            retour = new Prospect(Integer.parseInt(idTextField.getText()), raisonSocialeTextField.getText(), adresse, telTextField.getText(), mailTextField.getText(),
                     comTextField.getText(), (LocalDate) validerReglesAffichage("dateProspect"),
                     (Interet) interetCombo.getSelectedItem());
         }
-            */
         return retour;
     }
 
@@ -268,6 +272,7 @@ public class FormulaireSociete extends JDialog {
         for (JComponent component : listeChampsFormulaire) {
             component.setEnabled(!typeAction.equals(TypeAction.AFFICHER));
         }
+        this.buttonOK.setEnabled(!typeAction.equals(TypeAction.AFFICHER));
     }
 
     void afficherErreur(String message) {

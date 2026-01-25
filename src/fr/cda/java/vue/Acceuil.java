@@ -9,6 +9,7 @@ import fr.cda.java.utilitaire.AppContext;
 import fr.cda.java.utilitaire.Severite;
 import fr.cda.java.utilitaire.TypeAction;
 import fr.cda.java.utilitaire.TypeSociete;
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -77,11 +78,6 @@ public class Acceuil extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 typeSociete = TypeSociete.CLIENT;
                 choixTypeSociete();
-                try {
-                    listeSociete = service.getListeSociete();
-                } catch (TreatedException ex) {
-                    afficherErreurFatale(ex);
-                }
 
             }
         });
@@ -96,11 +92,6 @@ public class Acceuil extends JDialog {
                 typeSociete = TypeSociete.PROSPECT;
 
                 choixTypeSociete();
-                try {
-                    listeSociete = service.getListeSociete();
-                } catch (TreatedException ex) {
-                    afficherErreurFatale(ex);
-                }
             }
         });
         selectionSociete.addItemListener(new ItemListener() {
@@ -161,7 +152,7 @@ public class Acceuil extends JDialog {
                         TypeAction.UPDATE, selectedSociete);
                 formulaireSociete.pack();
                 formulaireSociete.setVisible(true);
-                majListeDeroulante();
+                choixTypeSociete();
             }
         });
         supprimerButton.addActionListener(new ActionListener() {
@@ -189,7 +180,7 @@ public class Acceuil extends JDialog {
                             AppContext.typeBDD.getDaoFactory().getClientDao()
                                     .delete(selectedSociete.getIdentifiant());
                         } catch (TreatedException ex) {
-                            throw new RuntimeException(ex);
+                            afficherErreur(ex);
                         }
                     }
                     listeSociete.remove(selectedSociete);
@@ -221,8 +212,9 @@ public class Acceuil extends JDialog {
 
         try {
             service = new SocieteService(typeSociete);
+            listeSociete = service.getListeSociete();
         } catch (TreatedException ex) {
-            throw new RuntimeException(ex);
+            afficherErreurFatale(ex);
         }
         description.setText(
                 new StringBuilder("Gestion des ").append(typeSociete.getAffichage()).toString());

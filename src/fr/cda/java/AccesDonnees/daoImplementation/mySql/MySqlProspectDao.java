@@ -4,18 +4,15 @@ import fr.cda.java.AccesDonnees.Connexion;
 import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.gestionErreurs.Exceptions.NotFoundException;
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
+import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.model.gestion.Prospect;
 import fr.cda.java.utilitaire.Interet;
 import fr.cda.java.utilitaire.LabelManager;
 import fr.cda.java.utilitaire.TypeBDD;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +69,7 @@ public class MySqlProspectDao implements DaoInterface<Prospect> {
     public void update(Prospect entite) throws TreatedException {
         String query =
                 "update Prospect set raisonSocialeProspect =?, telephoneProspect=?, adresseMailProspect=?"
-                        + ", commentaire=?,dateProspection=?, interet = ?,Id_Adresse=?";
+                        + ", commentaire=?,dateProspection=?, interet = ?,Id_Adresse=? where Id_Prospect =?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
 
             stmt.setString(1, entite.getRaisonSociale());
@@ -82,6 +79,7 @@ public class MySqlProspectDao implements DaoInterface<Prospect> {
             stmt.setDate(5, Date.valueOf(entite.getDateProspection()));
             stmt.setBoolean(6, entite.getInteret().equals(Interet.OUI));
             stmt.setInt(7, entite.getAdresse().getIdentifiant());
+            stmt.setInt(8, entite.getIdentifiant());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -148,6 +146,7 @@ public class MySqlProspectDao implements DaoInterface<Prospect> {
                         rs.getDate("dateProspection").toLocalDate(),
                         rs.getBoolean("interet") ? Interet.OUI : Interet.NON);
                 prospect.setIdAdresse(rs.getInt("Id_Adresse"));
+                liste.add(prospect);
             }
         } catch (SQLException e) {
            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));

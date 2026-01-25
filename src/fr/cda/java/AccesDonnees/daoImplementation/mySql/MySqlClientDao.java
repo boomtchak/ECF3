@@ -4,6 +4,7 @@ import fr.cda.java.AccesDonnees.Connexion;
 import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.gestionErreurs.Exceptions.NotFoundException;
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
+import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.model.gestion.Client;
 import fr.cda.java.utilitaire.LabelManager;
 import fr.cda.java.utilitaire.TypeBDD;
@@ -69,7 +70,7 @@ public class MySqlClientDao implements DaoInterface<Client> {
     public void update(Client entite) throws TreatedException {
         String query =
                 "update Client set raisonSocialeClient =?, telephoneClient=?, adresseMailClient=?"
-                        + ", commentaire=?, chiffreAffaire=?, nombreEmployes=?, Id_Adresse=?";
+                        + ", commentaire=?, chiffreAffaire=?, nombreEmployes=?, Id_Adresse=? where Id_Client =?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
 
             stmt.setString(1, entite.getRaisonSociale());
@@ -79,6 +80,7 @@ public class MySqlClientDao implements DaoInterface<Client> {
             stmt.setLong(5, entite.getChiffreAffaire());
             stmt.setInt(6, entite.getNombreEmployes());
             stmt.setInt(7, entite.getAdresse().getIdentifiant());
+            stmt.setInt(8, entite.getIdentifiant());
             stmt.executeUpdate();
 
         } catch (SQLException e) {

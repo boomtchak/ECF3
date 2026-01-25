@@ -4,9 +4,11 @@ import fr.cda.java.AccesDonnees.Connexion;
 import fr.cda.java.AccesDonnees.DaoInterface;
 import fr.cda.java.gestionErreurs.Exceptions.NotFoundException;
 import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
+import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.model.gestion.Contrat;
 import fr.cda.java.utilitaire.LabelManager;
 import fr.cda.java.utilitaire.TypeBDD;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -44,7 +46,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                 }
             }
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -58,15 +60,15 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
 
     @Override
     public void update(Contrat entite) throws TreatedException {
-        String query = "update contrat set  montantContrat=? , nomContrat = ?  where id = ?";
+        String query = "update contrat set  montantContrat=? , nomContrat = ?  where Id_Contrat = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
             stmt.setDouble(1, entite.getMontantContrat());
             stmt.setString(2, entite.getNomContrat());
             stmt.setInt(3, entite.getIdentifiant());
-            int rs = stmt.executeUpdate();
+           stmt.executeUpdate();
 
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -90,7 +92,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                         rs.getDouble("montantContrat"));
             }
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -110,8 +112,9 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
         Contrat contrat = null;
         String query = "select *  from Contrat  where Id_Client = ?";
         List<Contrat> liste = new ArrayList<>();
-        try (Statement stmt = Connexion.getConnection().createStatement()) {
-            ResultSet rs = stmt.executeQuery(query);
+        try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
+            stmt.setInt(1, idClient);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 contrat = new Contrat(rs.getInt("Id_Client"),
                         rs.getString("nomContrat"),
@@ -119,7 +122,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                 liste.add(contrat);
             }
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -147,7 +150,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
                 liste.add(contrat);
             }
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -165,7 +168,7 @@ public class MySqlContratDao implements DaoInterface<Contrat> {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {

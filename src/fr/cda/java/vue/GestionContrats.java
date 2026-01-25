@@ -7,9 +7,11 @@ import fr.cda.java.gestionErreurs.Exceptions.TreatedException;
 import fr.cda.java.model.gestion.Contrat;
 import fr.cda.java.utilitaire.AppContext;
 import fr.cda.java.utilitaire.TypeAction;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JButton;
@@ -49,7 +51,8 @@ public class GestionContrats extends JDialog {
     private boolean isAffichage = true;
     private TypeAction typeAction;
     private String nomClient;
-    private Map<Integer, Contrat> mapContrats;
+    private Map<Integer, Contrat> mapContrats = new HashMap<>() {
+    };
     DaoInterface dao;
 
     public GestionContrats(int clientId, String nomClient, TypeAction typeAction) {
@@ -64,10 +67,16 @@ public class GestionContrats extends JDialog {
             afficherErreur(e.getMessage());
         }
 
-        List<Contrat> liste = new ArrayList<>();
-        for (Contrat contrat : liste) {
-            mapContrats.put(contrat.getIdentifiant(), contrat);
-
+        List<Contrat> liste = null;
+        try {
+            liste = dao.getByParentId(clientId);
+        } catch (TreatedException e) {
+            afficherErreur(e.getMessage());
+        }
+        if (liste != null) {
+            for (Contrat contrat : liste) {
+                mapContrats.put(contrat.getIdentifiant(), contrat);
+            }
         }
 
         isAffichage = typeAction.equals(TypeAction.AFFICHER);
@@ -313,7 +322,7 @@ public class GestionContrats extends JDialog {
             montantCtTextField.setText(
                     String.valueOf(selectedContrat.getMontantContrat()));
         }
-        if (!isAffichage) {
+        if (!isAffichage && selectedContrat != null) {
             idTextField.setText(String.valueOf(selectedContrat.getIdentifiant()));
         }
     }

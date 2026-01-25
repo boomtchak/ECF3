@@ -8,6 +8,7 @@ import fr.cda.java.gestionErreurs.Logger.AppLogger;
 import fr.cda.java.model.gestion.Adresse;
 import fr.cda.java.utilitaire.LabelManager;
 import fr.cda.java.utilitaire.TypeBDD;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -61,17 +62,17 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
 
     @Override
     public void update(Adresse entite) throws TreatedException {
-        String query = "update adresse set  nomDeRue=? , numeroDeRue = ?, ville =?, codePostal = ? where id = ?";
+        String query = "update Adresse set  nomDeRue=? , numeroDeRue =?, ville =?, codePostal = ? where Id_Adresse = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
             stmt.setString(1, entite.getNomDeRue());
             stmt.setString(2, entite.getNumeroDeRue());
             stmt.setString(3, entite.getVille());
             stmt.setString(4, entite.getCodePostal());
             stmt.setInt(5, entite.getIdentifiant());
-            int rs = stmt.executeUpdate();
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -97,7 +98,7 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
                         rs.getString("ville"));
             }
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -114,7 +115,7 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
 
     @Override
     public List<Adresse> findAll() throws TreatedException {
-        String query = "select *  from adresse";
+        String query = "select *  from Adresse";
         List<Adresse> liste = new ArrayList<>();
         try (Statement stmt = Connexion.getConnection().createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
@@ -127,7 +128,7 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
                 liste.add(adresse);
             }
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {
@@ -140,12 +141,12 @@ public class MySqlAdresseDao implements DaoInterface<Adresse> {
 
     @Override
     public void delete(int id) throws TreatedException {
-        String query = "delete from adresse where Id_Adresse = ?";
+        String query = "delete from Adresse where Id_Adresse = ?";
         try (PreparedStatement stmt = Connexion.getConnection().prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-           throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
+            throw AppLogger.log(gestionDesErreurs.handleException(e, TypeBDD.MYSQL));
         } catch (FileNotFoundException e) {
             throw AppLogger.log(gestionDesErreurs.handleException(e));
         } catch (IOException e) {

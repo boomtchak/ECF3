@@ -27,4 +27,8 @@ Git : Utilisation de branches dédiées et normalisation des messages de commit.
 Validation : Contrôles par REGEX et gestion stricte des champs obligatoires.
 Logs : Journalisation des exceptions liées à la persistance.
 
-Repo : https://github.com/boomtchak/ECF3/
+🛠️ Note technique
+Ce projet ECF utilise actuellement Swing pour l’interface, avec la logique de contrôle intégrée à la vue, conformément aux exigences de l’ECF.
+L’architecture est solide : Abstract Factory, DAO interfaces, gestion centralisée des erreurs.
+Certaines fonctionnalités (mode dégradé, internationalisation complète, tests d’intégration) ont été préparées architecturally et sont maquetées dans le code, mais leur implémentation détaillée reste à finaliser.
+Une migration vers React est prévue pour améliorer la séparation de la logique métier, la modularité et l’expérience utilisateur.
